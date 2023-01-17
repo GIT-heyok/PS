@@ -28,30 +28,24 @@ const int INF = 1234567890;
 int main(){
     FAST
     int n;
-    ll m;
-    cin >> n >> m;
-    ll ans = m;
-    vector<pLL> comeBack;
+    cin >> n;
+    int ans = 0;
+    vector<pI> v(n);
     for(int i=0; i<n;i++){
-        ll a, b;
-        cin >> a>>b;
-        if(a>b){
-            comeBack.push_back({b,a});
-        }
+        cin >> v[i].first >> v[i].second;
     }
-    sort(all(comeBack));
-    ll s1=-INF, s2=-INF;
-    for(auto temp: comeBack){
-        if(s1<=temp.first&&s2>=temp.first){
-            s2 = max(s2,temp.second);
+    sort(all(v));
+    int s1=-INF, s2=-INF;
+    for(int i=0; i<n; i++){
+        if(s1<=v[i].first&&s2>=v[i].first){
+            s2 = max(s2, v[i].second);
         }
         else{ //정렬이 되어 있으므로 더 클 수 밖에 없다.
-            ans+=(s2-s1)*2;
-            s1 = temp.first, s2 = temp.second;
+            ans+=s2-s1;
+            s1 = v[i].first, s2 = v[i].second;
         }
     }
-    ans+=(s2-s1)*2;
+    ans+=s2-s1;
     cout<<ans<<endl;
-
 
 }
