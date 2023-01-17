@@ -8,7 +8,8 @@
         "string_view": "cpp",
         "initializer_list": "cpp",
         "cmath": "cpp",
-        "stack": "cpp"
+        "stack": "cpp",
+        "iostream": "cpp"
     },
     "vim.useSystemClipboard": true
 }

@@ -5,6 +5,19 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "runOneFile",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "build/${fileBasenameNoExtension}",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "lldb",
+            // "preLaunchTask": "C/C++: g++-10 build active file"
+        },
+        {
             "name": "(gdb) 시작",
             "type": "cppdbg",
             "request": "launch",
