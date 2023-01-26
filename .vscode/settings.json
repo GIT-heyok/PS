@@ -11,7 +11,12 @@
         "stack": "cpp",
         "iostream": "cpp",
         "iomanip": "cpp",
-        "algorithm": "cpp"
+        "algorithm": "cpp",
+        "forward_list": "cpp",
+        "list": "cpp",
+        "unordered_set": "cpp",
+        "regex": "cpp",
+        "valarray": "cpp"
     },
     "vim.useSystemClipboard": true
 }

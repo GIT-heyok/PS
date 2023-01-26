@@ -36,6 +36,9 @@ ll getkPow(ll p, ll k){
     }
     return sum;
 }
+ll getHeight(ll p, ll k){
+    
+}
 
 ll getParent(ll n, ll k){
     if(n==1){ //edge case
