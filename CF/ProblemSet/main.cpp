@@ -9,6 +9,7 @@
 #include <set>
 #include <map>
 #include <cmath>
+#include <numeric>
  
 #define FAST ios::sync_with_stdio(false);\
 cin.tie(nullptr);\
@@ -30,40 +31,58 @@ int main(){
     int T;
     cin >> T;
     while(T--){
-        int n, k;
-        cin >> n >> k;
-        if(k==0){
-            for(int i=0; i<n/2; i++){
-                cout<<i<<" "<<n-1-i<<endl;
+        int n, m;
+        cin >> n >> m;
+        bool visited[n+1][m+1];
+        int arr[n+1][m+1];
+        for(int i=1; i<=n; i++){
+            for(int j=1; j<=m; j++){
+                cin >> arr[i][j];
+                visited[i][j] = false;   
             }
         }
-        else if(k<n-1){
-            //match n-1 and k
-            // match 0 with n-k-1
-            //match everything else
-            cout<<n-1<<" "<<k<<endl;
-            cout<<0<<" "<<n-k-1<<endl;
-            for(int i=1; i<n/2; i++){
-                if(i==n-k-1||i==k){
-                    continue;
+        ll ans = 0;
+        for(int i=1; i<=n; i++){
+            for(int j=1; j<=m; j++){
+                if(!visited[i][j]){
+                int di = n-i+1;
+                int dj = m-j+1;
+                if(di==i){
+                    if(dj==j){
+                        //one pos
+                        visited[i][j] = true;
+                    }
+                    else{
+                        //same row
+                        visited[i][j] = true;
+                        visited[i][dj] = true;
+                        int mean = (arr[i][j]+arr[i][dj])/2;
+                        ans += abs(arr[i][j]-mean);
+                        ans += abs(arr[i][dj]-mean);
+                    }
                 }
-                cout<<i<<" "<<n-1-i<<endl;
+                else{
+                    if(dj==j){
+                        visited[i][j] = true;
+                        visited[di][j] = true;
+                        int mean = (arr[i][j]+arr[di][j])/2;
+                        ans += abs(arr[i][j]-mean);
+                        ans += abs(arr[di][j]-mean);
+                    }
+                    else{
+                        visited[i][j] = true;
+                        visited[i][dj] = true;
+                        visited[di][j] = true;
+                        visited[di][dj] = true;
+                        ll mean = ((ll)arr[i][j]+(ll)arr[i][dj]+arr[di][j]+arr[di][dj])/4;
+                        ll temp = mean+1;
+                        ll ansTemp1 = abs(arr[i][j]-mean)+abs(arr[i][dj]-mean)+abs(arr[di][j]-mean)+abs(arr[di][dj]-mean);
+                        ll ansTemp2 = abs(arr[i][j]-temp)+abs(arr[i][dj]-temp)+abs(arr[di][j]-temp)+abs(arr[di][dj]-temp);
+                        ans+=min(ansTemp1, ansTemp2);
+                    }
+                }}
             }
         }
-        else{
-            if(n==4)cout<<-1<<endl;
-            else{
-                //match n-1 and n-2
-                //match 1 and n-3
-                //match 0 and 2
-                //match from 3 to n/2
-                cout<<n-1<<" "<<n-2<<endl;
-                cout<<1<<" "<<n-3<<endl;
-                cout<<0<<" "<<2<<endl;
-                for(int i=3; i<n/2; i++){
-                    cout<<i<< " "<<n-1-i<<endl;
-                }
-            }   
-        }
+        cout<<ans<<endl;
+    }   
     }
-}
