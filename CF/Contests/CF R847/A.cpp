@@ -30,6 +30,19 @@ int main(){
     int T;
     cin >> T;
     while(T--){
-             
+        string s = "314159265358979323846264338327";
+        string ss;
+        cin >> ss;
+        int cnt = 0;
+        for(int i=0; i<ss.length(); i++){
+            if(s[i]==ss[i]){
+                cnt++;
+            }
+            else{
+                break;
+                
+            }
+        }
+        cout<<cnt<<endl;
     }
 }
