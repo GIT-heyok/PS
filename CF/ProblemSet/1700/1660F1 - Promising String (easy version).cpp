@@ -63,9 +63,7 @@ int main(){
                 if(val<=0&&val+3*conv>=0&&(val+3*conv)%3==0){
                     ans++;
                 }
-                // cout<<i<<" " <<j << " "val<<" "
             }
-            // cout<<i<<" "<<ans<<endl;
 
         }
             cout<<ans<<endl;

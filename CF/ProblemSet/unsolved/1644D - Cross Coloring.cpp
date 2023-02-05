@@ -34,37 +34,30 @@ int main(){
         int n, m, q;
         ll k;
         cin >> n >> m >> k >> q;
-        vi rows(n+1,0), columns(m+1,0);
-        rows[0] = INF;
-        columns[0] = INF;
-        for(int i=1; i<=q; i++){
+        vi rows(q), columns(q);
+        for(int i=0; i<q; i++){
             int x, y;
             cin >> x >> y;
-            rows[x] = i;
-            columns[y] = i;
+            rows.push_back(x);
+            columns.push_back(y);
         }
-        // for(int i: rows)cout<<i<<" ";
-        // cout<<endl;
-        // for(int i: columns)cout<<i<<" ";
-        // cout<<endl;
         int columnSweep, rowSweep;
         rowSweep = *min_element(all(rows));
         columnSweep = *min_element(all(columns));
-        // vi vectorR, vectorC;
-        // cout<<rowSweep<<" "<<columnSweep<<endl;
-        vi cnt(max(n+1,m+1), 0);
+        // cout<< rowSweep<<" "<<columnSweep<<endl;
+        vi cnt(q+1, 0);
             for(int i=1; i<=n; i++){
-                if(rows[i]>=columnSweep){
-                    // vectorR.emplace_back(rows[i]);
-                    cnt[i] = 1;
+                if(rows[i]>=columnSweep&&rows[i]!=0){
+                    cnt[rows[i]] = 1;
                 }
             }
              for(int i=1; i<=m; i++){
-                if(columns[i]>=rowSweep){
-                    // vectorC.emplace_back(columns[i]);
-                    cnt[i]=1;
+                // cout<<columns[i]<<" ";
+                if(columns[i]>=rowSweep&&columns[i]!=0){
+                    cnt[columns[i]]=1;
                 }
             }
+            // cout<<endl;
         int pow = accumulate(all(cnt),0);
         const ll mod = 998244353;
         ll ans = 1;

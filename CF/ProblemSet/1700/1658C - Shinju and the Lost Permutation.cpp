@@ -47,18 +47,11 @@ int main(){
         } 
         else{
             bool flag = true;
-            int prev = vec[oneIndex];
+            int prev = vec[oneIndex]; //prev should be one
             for(int i=1; i<n; i++){
                 int cur =vec[(oneIndex+i)%n];
-                // cout<<cur<< " ";
-                if(prev<=cur){
+                if(prev<cur){
                     if(cur-prev!=1){
-                        flag = false;
-                        break;
-                    }
-                }
-                else{
-                    if(cur==1){
                         flag = false;
                         break;
                     }

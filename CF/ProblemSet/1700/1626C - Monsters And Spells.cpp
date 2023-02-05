@@ -48,14 +48,18 @@ int main(){
         for(int i=n-1; i>=0; i--){
             ll h = health[i];
             ll dt = time[i+1]-time[i];
-            if(cur-dt<=0){
-                ans += (curMax*(curMax+1))/2;
+            if(cur-dt<=0){ // current written hp is zero or less
+                ans += (curMax*(curMax+1))/2; //update the answer
                 curMax = h;
+                cur = h;
             }
             else if(cur-dt<h){
                 curMax += h-(cur-dt);
+                cur = h;
             }
-            cur=h;
+            else{
+                cur-=dt;
+            }
         }
         cout<<ans<<endl;
 
