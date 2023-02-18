@@ -31,35 +31,16 @@ int main(){
     int T;
     cin >> T;
     while(T--){
-        int n, arr[n];
-        cin >>n;
-        for (int i = 0; i < n; i++)
+        int l,r;
+        cin >> l >> r;
+        int pten = 1, ans = 0;
+        for (int i = 0; i < 10; i++)
         {
-            cin >> arr[i];
+            ans += (r-(l-l%pten))/pten;
+            pten*=10;
         }
-        int cur = 0;
-        bool flag = false;
-        for (int i = 0; i < n-1; i++)
-        {
-            cur^=arr[i];
-            int index =i+1;
-            int val = 0;
-            while(index<n){
-                if(val==cur)val = 0;
-                else {
-                    val ^= arr[index];
-                }
-                index++;
-            }
-            if(val==cur){
-                flag = true;
-                break;
-            }
-
-        }
-        if(flag) cout<<"YES"<<endl;
-        else cout<<"NO"<<endl;        
-                    
+        cout<<ans<<endl;
+        
     }
 
 }

@@ -31,35 +31,31 @@ int main(){
     int T;
     cin >> T;
     while(T--){
-        int n, arr[n];
-        cin >>n;
-        for (int i = 0; i < n; i++)
-        {
-            cin >> arr[i];
-        }
-        int cur = 0;
+        int n, a, b;
+        cin>> n >>  a>>b;
+        ll val = 1, mod = 1;
         bool flag = false;
-        for (int i = 0; i < n-1; i++)
+        if(b==1){
+            cout<<"Yes"<<endl;
+        }
+        else{
+        while (val<=n)
         {
-            cur^=arr[i];
-            int index =i+1;
-            int val = 0;
-            while(index<n){
-                if(val==cur)val = 0;
-                else {
-                    val ^= arr[index];
-                }
-                index++;
-            }
-            if(val==cur){
+            if(mod==(n%b)){
+                cout<<"Yes"<<endl;
                 flag = true;
                 break;
             }
-
+            else{
+                val*=a;
+                mod = val%b;
+            }
         }
-        if(flag) cout<<"YES"<<endl;
-        else cout<<"NO"<<endl;        
-                    
-    }
+
+        if(!flag)cout<<"No"<<endl;
+        // cout<<n<<endl;
+ 
+        }
+          }
 
 }

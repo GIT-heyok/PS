@@ -26,7 +26,7 @@ typedef pair<ll, ll> pLL;
 const int MAX = 500001;
 const ll INF = 12345670;
 
-
+//priority queue requires a certain order!
 
 int main()
 {
