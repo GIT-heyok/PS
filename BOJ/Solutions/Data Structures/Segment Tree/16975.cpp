@@ -10,7 +10,7 @@
 #include <map>
 #include <cmath>
  
-#define FAST ios::sync_with_stdio(false);\
+#define fast ios::sync_with_stdio(false);\
 cin.tie(nullptr);\
 cout.tie(nullptr);
 #define endl '\n'
@@ -19,57 +19,57 @@ using namespace std;
 typedef long long ll;
 typedef vector<int> vi;
 typedef vector<ll> vll;
-typedef pair<int, int> pI;
-typedef pair<ll, ll> pLL;
-struct SegTree{
+typedef pair<int, int> pi;
+typedef pair<ll, ll> pll;
+struct segtree{
     int n;
     vll a , t;
-    SegTree(int sz){
+    segtree(int sz){
         n = sz;
         a.resize(n);
         t.resize(4*n);
     }
     
-    void update(int ss, int se, int qs, int qe, int idx ,ll value)
+    void update(int ss, int se, int ii, int idx ,ll value)
     {
-        if(qs>se || qe<ss)
+        // cout<<idx<<" "<<t[idx]<<endl;
+        if(ii>se || ii<ss)
             return;
-        if(qs<=ss && qe>=se)
-        {
-            
-            return ;
+        if(ii==ss&&ss==se){
+            t[idx] += value;
+            return;
         }
         int mid = (ss+se)/2;
-        update(ss, mid , qs, qe, 2*idx+1 , value);
-        update(mid+1, se, qs ,qe ,2*idx+2 , value);
+        update(ss, mid , ii, 2*idx+1 , value);
+        update(mid+1, se, ii ,2*idx+2 , value);
         t[idx] = t[2*idx+1] + t[2*idx+2];
     }
     
     /**interface to call update function
      * l and r in this function is 0-indexed 
      */
-    void update(int l, int r, ll val)
+    void update(int ii, ll val)
     {
-        update(0 , n-1, l, r, 0 , val);
+        update(0 , n-1, ii, 0 , val);
     }
     
     ll get(int ss, int se, int qs, int qe, int idx)
     {
-        if(qs>se || qe<ss)
+        if(qs>se || qe<ss) //out of bound
             return 0;
-        if(qs<=ss && qe>=se)
+        if(qs<=ss&&qe>=se){
             return t[idx];
-    
+        }
         int mid = (ss+se)/2;
-        return get(ss, mid, qs ,qe , 2*idx+1) + get(mid+1 , se, qs , qe, 2*idx+2);
+        return get(ss, mid, qs, qe , 2*idx+1) + get(mid+1 , se, qs, qe, 2*idx+2);
     }
     
     /**interface to call get function
      * l and r in this function is 0-indexed 
      */
-    ll get(int l, int r)
+    ll get(int l, int  r)
     {
-		return get(0 , n-1, l , r , 0); 
+		return get(0 , n-1, l, r , 0); 
         
     }
     void build(int ss, int se, int idx)
@@ -95,29 +95,33 @@ struct SegTree{
 
 int main()
 {
-    FAST
-	int  type , l ,r , q1,q2,q , n;
+    fast
+	int  type , l ,r , q , n;
 	ll val , ans;  
-		cin >> n >> q1 >> q2;
-		q = q1+q2;
-    	SegTreeLazy seg(n);
-	    for(int i=0; i<4*n; i++)
-			seg.lazy[i] =0 ;
-		for(int i=0; i<n; i++){
-		    cin >> seg.a[i];
+		cin >> n;
+    	segtree seg(n+1);
+	    for(int i=0; i<n; i++){
+            ll temp;
+            cin >> temp;
+		    seg.a[i] += temp;
+            seg.a[i+1]-=temp;
 		}
 		seg.build();
-		for(int i=0; i<q; i++)
+        
+		cin >> q;
+        for(int i=0; i<q; i++)
 		{
-		    cin >> type >> l >> r;
+		    cin >> type;
 			if(type==1)
 			{
-				cin>>val;
-				seg.update(l-1,r-1,val);
+				cin>>l>>r >> val;
+				seg.update(l-1,val);
+				seg.update(r,-val);
 			}
 			else 
 			{
-				ans = seg.get(l-1,r-1);
+                cin >> l;
+				ans = seg.get(0,l-1);
 				cout<<ans<<endl;
 			}
 		}
