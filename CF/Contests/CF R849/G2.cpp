@@ -33,69 +33,40 @@ int main(){
         int n;
         ll c;
         cin >> n >> c;
-        priority_queue<pLL, vector<pLL>, greater<pLL>> zeroBased, np1Based;
-        bool visited[n+1];
-        fill(visited, visited+n+1, false);
+        vector<pLL> vec(n);
         for(int i=1; i<=n; i++){
-            ll temp;
-            cin >>temp;
-            zeroBased.push({i+temp, i});
-            np1Based.push({temp+n+1-i, i});
+            pLL temp = {0,i};
+            cin >> temp.first;
+            temp.first+=min(i, n+1-i);
+            vec[i-1] = temp;
         }
-        // cout<<zeroBased.top().first<<" "<<np1Based.top().first<<endl;
-        int count = 0;
-        ll subSum = 0;
-        bool isAtZero = true;
-        for(int i=0; i<n; i++){
-            ll cost;
-            if(isAtZero){
-                auto temp = zeroBased.top();
-                cost = temp.first;
-                int portalLoc = temp.second;
-                visited[portalLoc] = true;
-                zeroBased.pop();
-               
-            }
-            else{
-                auto temp = np1Based.top();
-                cost = temp.first;
-                int portalLoc = temp.second;
-                visited[portalLoc] = true;
-                np1Based.pop();
-            }
-            pLL tempZ = {INF,0}, tempN = {INF,0};
-            while(!zeroBased.empty()){
-                tempZ = zeroBased.top();
-                zeroBased.pop();
-                if(!visited[tempZ.second]){
-                    break;
+        sort(all(vec));
+        ll subSum[n];
+        subSum[0] = vec[0].first;
+        for(int i=1; i<n; i++){
+            subSum[i] = subSum[i-1]+vec[i].first;
+        }
+
+        ll ans = 0;
+        for (int i = 0; i < n; i++)
+        {
+            ll tempC = c;
+            ll val = vec[i].first;
+            ll ind =vec[i].second;
+            ll tempVal = val-min((int)ind,n+1-(int)ind)+ind;
+            tempC-=tempVal;
+            ll cnt;
+            if(tempC>=0){
+                cnt = upper_bound(subSum, subSum+n, tempC)-subSum+1;
+                if(cnt>i){ //tempVal is counted twice
+                    cnt = upper_bound(subSum, subSum+n, tempC+val)-subSum;
                 }
-            }   
-            while(!np1Based.empty()){
-                tempN = np1Based.top();
-                np1Based.pop();
-                if(!visited[tempN.second]){
-                    break;
-                }
-            }   
-            if(tempZ<=tempN){
-                isAtZero = true;
+                ans = max(cnt, ans);
             }
-            else{
-                isAtZero = false;
-            }
-            zeroBased.push(tempZ);
-            np1Based.push(tempN);
             
-                cout<<tempZ.first<<" "<<tempZ.second<<" "<<tempN.first<<" "<<tempN.second<<endl;
-            if(subSum+cost<=c){
-                    count++;
-                    subSum+=cost;
-            }
-            else{
-                break;
-            }
         }
-        cout<<count<<endl;
+        cout<<ans<<endl;
+        
+
     }
 }

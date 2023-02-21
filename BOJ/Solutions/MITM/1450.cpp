@@ -53,9 +53,8 @@ int main()
     
     for(int i=0; i<lv.size(); i++){
         ll temp = s-lv[i];
-        ans+=upper_bound(all(rv), temp)-lower_bound(all(rv), temp);
+        ans+=upper_bound(all(rv), temp)-rv.begin();
     }
-    if(s==0)ans--;
     cout<<ans<<endl;
     
 }
