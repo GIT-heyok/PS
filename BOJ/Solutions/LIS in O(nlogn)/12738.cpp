@@ -40,37 +40,16 @@ int main()
     }
 
     vec.push_back(arr[0]);
-    int pos[n];
-    pos[0] = 1;
     for (int i = 1; i < n; i++)
     {
         if(arr[i]>vec[vec.size()-1]){
             vec.push_back(arr[i]);
-            pos[i] = vec.size();
         }
         else{
-            int a = lower_bound(all(vec), arr[i])-vec.begin();
-            pos[i] = a+1;
-            vec[a] = arr[i];
+            *lower_bound(all(vec), arr[i]) = arr[i];
         }
     }
     cout<<vec.size()<<endl;
-    int cnt = vec.size();
-    vi ans;
-    for (int i = n-1; i >=0; i--)
-    {
-        // cout<<pos[i];
-        if(cnt==pos[i]){
-            ans.push_back(arr[i]);
-            cnt--;
-        }
-    }
-    reverse(all(ans));
-    for (int i = 0; i < ans.size(); i++)
-    {
-        cout<<ans[i]<<" ";
-    }
     
-    cout<<endl;
     
 }
