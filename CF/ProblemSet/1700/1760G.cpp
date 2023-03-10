@@ -72,6 +72,7 @@ int main(){
             visited[i] = false;
         }
         visited[a] = true; 
+        visited[b] = true; 
         res1.push_back(0);
         dfs(a, 0, res1);
 
@@ -79,6 +80,7 @@ int main(){
         {
             visited[i] = false;
         }
+        visited[a] = true;
         visited[b] = true;
         dfs(b, 0, res2);
         

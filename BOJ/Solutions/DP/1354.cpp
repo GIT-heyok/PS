@@ -24,7 +24,7 @@ typedef vector<int> vi;
 typedef vector<ll> vll;
 typedef pair<int, int> pI;
 typedef pair<ll, ll> pLL;
-ll n, p, q;
+ll n, p, q, x, y;
 map<ll, ll> m;
 
 ll chk(ll k){
@@ -32,12 +32,13 @@ ll chk(ll k){
     if(m[k]>0){
         return m[k];
     }
-    return m[k] = chk(k/p)+chk(k/q);
+    return m[k] = chk(k/p-x)+chk(k/q-y);
 }
 int main()
 {
     FAST 
-    cin >> n >> p >> q;
+    cin >> n >> p >> q >> x >> y;
     cout<<chk(n)<<endl;
 }
+
 
