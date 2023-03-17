@@ -31,9 +31,24 @@ int cur[MAX][MAX], nxt[MAX][MAX];
 int dr[4] = {1, -1, 0, 0};
 int dc[4] = {0, 0, 1, -1};
 bool visited[MAX][MAX];
+int parent[MAX*MAX];
+
+int find(int a){
+    if(parent[a] == a)return a;
+    return parent[a] = find(parent[a]);
+}
+
+void merge(int a, int b){
+    a = find(a);
+    b = find(b);
+    if(a>b){
+        swap(a, b);
+    }
+    parent[b] = a;
+}
 
 void dfsIce(int r, int c){
-    cout<<r<<" "<<c<<" "<<cur[r][c]<<endl;
+    // cout<<r<<" "<<c<<" "<<cur[r][c]<<endl;
     if(visited[r][c])return;
     visited[r][c] = true;
     if(cur[r][c]=='.'||cur[r][c] == 'L'){
@@ -52,19 +67,21 @@ void dfsIce(int r, int c){
 }
 
 bool dfsSwan(int r, int c){
-    cout<<r<<" "<<c<<endl;
+    // cout<<r<<" "<<c<<endl;
     if(visited[r][c])return false;
     visited[r][c] = true;
     bool stat = false;
     if(cur[r][c]=='L'){
         return true;
     }
+    if(cur[r][c]=='.'){
     for (int i = 0; i < 4; i++)
     {
         int nxr = r+dr[i], nxc = c+dc[i];
         if(nxr<R&&nxr>=0&&nxc<C&&nxc>=0){
             if(dfsSwan(nxr, nxc))return true;
         }
+    }
     }
     return false;
 }
@@ -86,7 +103,7 @@ int main()
             }
         }
     }
-        for (int ans = 0;ans<3; ans++)
+        for (int ans = 0;; ans++)
         {
             bool chk = false;
             for (int i = 0; i < R; i++)
@@ -126,7 +143,7 @@ int main()
                     if(cur[i][j]=='.'||cur[i][j]=='L')
                     dfsIce(i, j);
                     else{
-                        if(nxt[i][j]!='.'||nxt[i][j]!='L'){
+                        if(nxt[i][j]!='.'&&nxt[i][j]!='L'){
                             nxt[i][j] = 'X';
                         }
                     }
@@ -142,17 +159,17 @@ int main()
                 }
             }
 
-            cout<<ans<<endl;
-            for (int i = 0; i < R; i++)
-            {
-                for (int j = 0; j < C; j++)
-                {
-                    cout<<(char)cur[i][j];
-                }
-                cout<<endl;
+            // cout<<ans<<endl;
+            // for (int i = 0; i < R; i++)
+            // {
+            //     for (int j = 0; j < C; j++)
+            //     {
+            //         cout<<(char)cur[i][j];
+            //     }
+            //     cout<<endl;
                 
-            }
-            cout<<endl;
+            // }
+            // cout<<endl;
             
         }
         

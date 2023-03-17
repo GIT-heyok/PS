@@ -9,13 +9,13 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "build/${fileBasenameNoExtension}",
-            "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
             "externalConsole": true,
             "MIMode": "lldb",
             // "preLaunchTask": "C/C++: g++-10 build active file"
+            "args": ["<","input.txt",">","output.txt"]
         },
         {
             "name": "(gdb) 시작",
