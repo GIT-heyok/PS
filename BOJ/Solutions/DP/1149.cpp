@@ -26,46 +26,49 @@ typedef pair<int, int> pI;
 typedef pair<ll, ll> pLL;
 const int MAX = 10001;
 const ll INF = 1e12;
+int n;
+ll arr[MAX][3];
+ll memo[MAX][3];
+
+ll dp(){
+	for (int i = 0; i < n-1; i++){
+		memo[i+1][0] = min(memo[i][1]+arr[i+1][0], memo[i][2]+arr[i+1][0]);
+		memo[i+1][1] = min(memo[i][0]+arr[i+1][1], memo[i][2]+arr[i+1][1]);
+		memo[i+1][2] = min(memo[i][0]+arr[i+1][2], memo[i][1]+arr[i+1][2]);
+	}
+	ll ans = INF;
+	for (int i = 0; i < 3; i++)
+	{
+		ans = min(ans, memo[n-1][i]);
+	}
+	return ans;
+}
 
 int main()
 {
     FAST
-	string s1, s2;
-	cin >> s1 >> s2;
-	int sz1 = s1.length(), sz2 = s2.length();
-	int memo[sz1+1][sz2+1];
-	for (int i = 0; i <= sz1; i++)
+	cin >> n;
+	for (int i = 0; i < n; i++)
 	{
-		for (int j = 0; j <= sz2; j++)
+		for (int j = 0; j < 3; j++)
 		{
-			memo[i][j] = 0;
+			cin >> arr[i][j];
 		}
 	}
-	for (int i = 1; i <= sz1; i++)
-	{
-		for (int j = 1; j <= sz2; j++)
-		{
-			if(s1[i-1]==s2[j-1]){
-				memo[i][j] = memo[i-1][j-1]+1;
-			}
-			else{
-				memo[i][j] = max(memo[i-1][j], memo[i][j-1]);
-			}
-		}
-	}
-	// for (int i = 0; i < sz1+1; i++)
-	// {
-	// 	for (int j = 0; j < sz2+1; j++)
-	// 	{
-	// 		cout<<memo[i][j]<<" ";
-	// 	}
-	// 	cout<<endl;	
-	// }
-	
-	cout<<memo[sz1][sz2]<<endl;
-	
-}
 
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			memo[i][j] = INF;
+		}
+	}
+	for (int i = 0; i < 3; i++)
+	{
+		memo[0][i] = arr[0][i];
+	}
+	cout<<dp()<<endl;	
+}
     
 
 
