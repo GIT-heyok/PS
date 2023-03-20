@@ -24,51 +24,34 @@ typedef vector<int> vi;
 typedef vector<ll> vll;
 typedef pair<int, int> pI;
 typedef pair<ll, ll> pLL;
-const int MAX = 100001;
+const int MAX = 501;
 const ll INF = 1e12;
 const int inf = 1234567890;
 const ll MOD = 1e9+7;
 
-
+int getSum(vi& arr){
+	int sum = 0;
+	for (int i = 0; i < arr.size()-1; i++)
+	{
+		sum+= abs(arr[i]-arr[i+1]);
+	}
+	return sum;
+}
 int main(){
     FAST
-	int n, k;
-	cin >> n >> k;
-	priority_queue<pLL> gems;
-	gems.push({-2ll, -2ll});
+	int n;
+	cin >> n;
+	vi arr(n);
 	for (int i = 0; i < n; i++)
 	{
-		ll weight, value;
-		cin >> weight >> value;
-		gems.push({weight, value});
+		cin >> arr[i];
 	}
-	// while(!gems.empty()){
-	// 	cout<<gems.top().first<<" "<<gems.top().second<<endl;
-	// 	gems.pop();
-	// }	
-	vector<ll> bags(k+1);
-	for (int i = 0; i < k; i++)
-	{
-		cin >> bags[i];
+	sort(all(arr));
+	int ans = 0;
+	while(next_permutation(all(arr))){
+		ans = max(ans, getSum(arr));
 	}
-	bags[k] = -1;
-	sort(all(bags));
-	ll ans = 0;
-	for (int i = k; i > 0; i--)
-	{
-		//consider the case where curbag==nextBag for all
-		ll curBag = bags[i];
-		ll nextBag = bags[i-1];
-		ll curMax = -1;
-		while(gems.top().first>nextBag){
-			curMax = max(curMax, gems.top().second);
-			gems.pop();
-		}
-		queue<pLL> q;
-		while(gems.top())
-	}
-	
-	
+	cout<<ans<<endl;
 }
 
 

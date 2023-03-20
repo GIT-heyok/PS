@@ -24,50 +24,37 @@ typedef vector<int> vi;
 typedef vector<ll> vll;
 typedef pair<int, int> pI;
 typedef pair<ll, ll> pLL;
-const int MAX = 100001;
+const int MAX = 501;
 const ll INF = 1e12;
 const int inf = 1234567890;
 const ll MOD = 1e9+7;
 
-
 int main(){
     FAST
-	int n, k;
-	cin >> n >> k;
-	priority_queue<pLL> gems;
-	gems.push({-2ll, -2ll});
+	int n, s;
+	cin >> n >> s;
+	int arr[n];
 	for (int i = 0; i < n; i++)
 	{
-		ll weight, value;
-		cin >> weight >> value;
-		gems.push({weight, value});
+		cin >> arr[i];
 	}
-	// while(!gems.empty()){
-	// 	cout<<gems.top().first<<" "<<gems.top().second<<endl;
-	// 	gems.pop();
-	// }	
-	vector<ll> bags(k+1);
-	for (int i = 0; i < k; i++)
+	int ans =0;
+	for (int i = 1; i < (1<<n); i++)
 	{
-		cin >> bags[i];
-	}
-	bags[k] = -1;
-	sort(all(bags));
-	ll ans = 0;
-	for (int i = k; i > 0; i--)
-	{
-		//consider the case where curbag==nextBag for all
-		ll curBag = bags[i];
-		ll nextBag = bags[i-1];
-		ll curMax = -1;
-		while(gems.top().first>nextBag){
-			curMax = max(curMax, gems.top().second);
-			gems.pop();
+		int sum = 0;
+		for (int j = 0; j < n; j++)
+		{
+			if(i&(1<<j)){
+				sum+= arr[j];
+			}
 		}
-		queue<pLL> q;
-		while(gems.top())
+		if(sum==s){
+			ans++;
+		}
+		
 	}
 	
+	cout<<ans<<endl;
 	
 }
 
