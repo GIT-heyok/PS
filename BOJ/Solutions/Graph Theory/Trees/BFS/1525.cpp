@@ -56,7 +56,7 @@ vector<vi> numToArr(ll n){
 	return vec;
 	
 }
-
+//bfs + hashing: array -> number cause it is possible! ans bfs
 int main(){
 	FAST
 	map<ll, int> visited;
