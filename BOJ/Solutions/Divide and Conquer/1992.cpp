@@ -1,0 +1,82 @@
+#include <iostream>
+#include <vector>
+#include <stack>
+#include <queue>
+#include <sstream>
+#include <string>
+#include <algorithm>
+#include <numeric>
+#include <iomanip>
+#include <set>
+#include <map>
+#include <cmath>
+
+#define FAST                     \
+    ios::sync_with_stdio(false); \
+    cin.tie(nullptr);            \
+    cout.tie(nullptr);
+#define endl '\n'
+#define all(x) (x).begin(), (x).end()
+using namespace std;
+typedef long long ll;
+typedef long double ld;
+typedef vector<int> vi;
+typedef vector<ll> vll;
+typedef pair<int, int> pI;
+typedef pair<ll, ll> pLL;
+const int MAX = 200001;
+const ll INF = 1e12;
+const int inf = 1234567890;
+const ll MOD = 1e9+7;
+
+int arr[64][64];
+int w=0, b=0;
+
+string divide(int r1, int c1, int r2, int c2){
+	int start = arr[r1][c1];
+	string s = "";
+	bool chk = false;
+	for (int i = r1; i < r2; i++)
+	{
+		for (int j = c1; j < c2; j++)
+		{
+			if(arr[i][j]!=start){
+				chk = true;
+			}
+		}
+		
+	}
+	if(chk){
+		s+="(";
+		s+=divide(r1,c1,(r1+r2)/2, (c1+c2)/2);
+		s+=divide(r1,(c1+c2)/2, (r1+r2)/2, c2);
+		s+=divide((r1+r2)/2,c1,r2, (c1+c2)/2);
+		s+=divide((r1+r2)/2,(c1+c2)/2, r2, c2);
+		s+=")";
+	}
+	else{
+		string temp;
+		temp = (start+'0');
+		return temp;
+	}
+	return s;
+}
+
+int main(){
+	FAST
+	int n;
+	cin >> n;
+	for (int i = 0; i < n; i++)
+	{
+		string s;
+		cin >> s;
+		for (int j = 0; j < n; j++)
+		{
+			arr[i][j] = s[j]-'0';
+		}
+		
+	}
+	cout<<divide(0,0,n,n)<<endl;
+	
+}
+
