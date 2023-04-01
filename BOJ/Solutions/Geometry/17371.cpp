@@ -30,53 +30,37 @@ const int MAX = 100001;
 const ll INF = 1e12;
 const int inf = 1234567890;
 const ll MOD = 1e9+7;
-
+ll distance(pD a, pD b){
+    return (a.first-b.first)*(a.first-b.first)+(a.second-b.second)*(a.second-b.second);
+}
 int main(){
 	FAST
-    int m;
-    cin >> m;
-    int arr[20][m+1];
-    for (int i = 1; i <= m; i++)
+    int n;
+    cin >> n;
+    vector<pLL> points(n);
+    for (int i = 0; i < n; i++)
     {
-        cin >> arr[0][i];
+        cin >> points[i].first>> points[i].second;
     }
-    for (int i = 1; i < 20; i++)
+    pD p1 = points[0];
+    ll ans = INF;
+    for (int i = 0; i < n; i++)
     {
-        for (int j = 1; j <= m; j++)
+        ll dist = 0;
+        ll midx = 0;
+        for (int j = 0; j < n; j++)
         {
-            arr[i][j] = arr[i-1][arr[i-1][j]];
-        }
-    }
-
-   // for (int i = 0; i < 20; i++)
-   // {
-   //     cout<<(1<<i)<<" : ";
-   //     for (int j = 1; j <= m; j++)
-   //     {
-   //         cout<<arr[i][j]<<" ";
-   //     }
-   //     cout<<endl;
-   //     
-   // }
-    
-    int q;
-    cin >> q;
-    for (int i = 0; i < q; i++)
-    {
-        int a, b;
-        cin >> a >> b;
-        int cur = b;
-        for (int i = 0; i < 20; i++)
-        {
-            if(a&(1<<i)){
-                cur = arr[i][cur];
+            if(dist<distance(points[i], points[j])){
+                dist = distance(points[i], points[j]);
+                midx = i;
             }
         }
-        cout<<cur<<endl;
-        
+        if(ans>dist){
+            ans = dist;
+            p1 = points[midx];
+        }
     }
-    
-    
+    cout<<p1.first<<" "<<p1.second<<endl;
     
 }
 
