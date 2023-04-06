@@ -30,55 +30,46 @@ const int MAX = 101;
 const ll INF = 1e12;
 const int inf = 1234567890;
 const ll MOD = 1e9;
-
+//PRIM's Algorithm https://c4u-rdav.tistory.com/49
 int main(){
 	FAST
-    int n;
-    cin >> n;
-    vector<pD> coord(n+1);
-    double visited[n+1];
-    for (int i = 1; i <= n; i++)
+    int v, e;
+    cin >> v >> e;
+    priority_queue<pI> pq;
+    vector<pI> edges[v+1];
+    int visited[v+1];
+    for (int i = 0; i < e; i++)
     {
-        double a, b;
-        cin >> a >>b;
-        coord[i] = {a, b};   
+        int s, ee, w;
+        cin >> s >> ee >> w;
+        edges[s].push_back({-w, ee});
+        edges[ee].push_back({-w, s});
     }
-    
-    for (int i = 0; i < n+1; i++)
+    for (int i = 0; i < v+1; i++)
     {
-        visited[i] = -INF;
+        visited[i] = -inf;
     }
-    priority_queue<pair<double, int>> pq;
     pq.push({0, 1});
     while(!pq.empty()){
         int curNode = pq.top().second;
         int cost = -pq.top().first;
         pq.pop();
-        if(visited[curNode]==-INF){
-            visited[curNode] = sqrt(cost);
-            for (int i = 1; i<= n; i++)
+        if(visited[curNode]==-inf){
+            visited[curNode] = cost;
+            for (int i = 0; i < edges[curNode].size(); i++)
             {
-                if(i==curNode)continue;
-                double x1 = coord[curNode].first;
-                double y1 = coord[curNode].second;
-                double x2 = coord[i].first;
-                double y2 = coord[i].second;
-                double dist = (x1-x2)*(x1-x2)+(y1-y2)*(y1-y2);
-                pq.push({-dist, i});
-            }            
+                pq.push(edges[curNode][i]);
+            }       
         }
     }
-    double ans = 0;
-    for (int i = 1; i < n+1; i++)
+    int ans = 0;
+    for (int i = 1; i < v+1; i++)
     {
          ans += visited[i];
     }
-    cout<<setprecision(5);
-    cout<<fixed;
     cout<<ans<<endl;
     
      
 }
-
 
 
