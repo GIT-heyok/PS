@@ -30,7 +30,24 @@ int main(){
     int T;
     cin >> T;
     while(T--){
-        
+        int n;
+        cin >> n;
+        int cnt = 0;
+        int a=0, b=0; 
+        for (int i = 1; n>0; i++)
+        {
+            int left = min(n, i);
+
+            if(i%4==1||i%4==0){
+                a+=left;
+                n-=left;    
+            }
+            else{
+                b+=left;
+                n-=left;
+            }
+        }
+        cout<< a << " "<<b<<endl;
         
     }
 }

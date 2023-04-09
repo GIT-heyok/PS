@@ -30,7 +30,29 @@ int main(){
     int T;
     cin >> T;
     while(T--){
-        
-        
+           ll l=INF,r=INF;
+        ll n, w, h;
+        cin >> n >> w >> h;
+        ll cakes[n], dispenser[n];
+        for (int i = 0; i < n; i++)
+        {
+            cin >> cakes[i];
+        }
+        for (int i = 0; i < n; i++)
+        {
+            cin >> dispenser[i];
+        }
+        for (int i = 0; i < n; i++)
+        {
+            l = min(dispenser[i]-h-(cakes[i]-w), l);
+            r = min(cakes[i]+w-(dispenser[i]+h),r);
+        }
+        // cout<<-l<< " "<<r<<endl;
+        if(-l<=r){
+            cout<<"YES"<<endl;
+        }
+        else{
+            cout<<"NO"<<endl;
+        }  
     }
 }

@@ -16,7 +16,7 @@
     ios::sync_with_stdio(false); \
     cin.tie(nullptr);            \
     cout.tie(nullptr);
-#define endl '\n'
+// #define endl '\n'
 #define all(x) (x).begin(), (x).end()
 using namespace std;
 typedef long long ll;
@@ -31,48 +31,55 @@ const int MAX = 1000001;
 const ll INF = 1e12;
 const int inf = 1e6;
 const ll MOD = 1e9;
-int n, r, q;
-int memo[MAX];
-bool visited[MAX];
 vector<int> tree[MAX];
-int dp(int k){
 
-    visited[k] = true;
-    if(memo[k]!=-1) return memo[k];
-    int &temp = memo[k];
-    temp = 1;
-    for (int i = 0; i < tree[k].size(); i++)
-    {
-        if(!visited[tree[k][i]])
-            temp += dp(tree[k][i]);
-    }   
-    return temp;
+vector<bool> visited(MAX, false);
+vector<int> ans;
+int n, m;
+void dfs(int here) {
+	
+	for (int there = tree[here].size()-1; there >=0; there--) {
+		if (!visited[tree[here][there]])
+			dfs(tree[here][there]);
+	}
+	visited[here] = true;
+	ans.push_back(here);
+
+}
+
+
+void topologicalSort() {
+
+	for (int i = n;i>=1;i--)
+		if (!visited[i]) dfs(i);
+
+	//종료된 순서를 거꾸로 만든다.
+	reverse(ans.begin(), ans.end());
 }
 int main(){
-    FAST
-    cin >> n >> r >> q;
+	FAST
+	cin >> n >> m;
+	
+	for (int i = 0; i < m; i++)
+	{
+		int a, b;
+		cin >> a >>b;
+		tree[a].push_back(b);
+	}
     for (int i = 1; i <= n; i++)
     {
-        memo[i] = -1;
-        visited[i] = false;    
+        sort(all(tree[i]));
     }
+    
+	topologicalSort();
+	for (int i = 0; i < ans.size(); i++)
+	{
+		cout<<ans[i]<<" ";
+	}
+	
+	
+	
 
-    for (int i = 0; i < n-1; i++)
-    {
-        int a, b;
-        cin >> a  >> b;
-        tree[a].push_back(b);
-        tree[b].push_back(a);
-    }
-    dp(r);
-    for (int i = 0; i < q; i++)
-    {
-        int temp;
-        cin >> temp;
-        cout<<memo[temp]<<endl;
-    }
-    
-    
-    
-    
+	
 }
+
