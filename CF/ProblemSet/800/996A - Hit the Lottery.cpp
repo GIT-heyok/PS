@@ -25,17 +25,17 @@ typedef vector<int> vi;
 typedef vector<ll> vll;
 typedef pair<int, int> pI;
 typedef pair<ll, ll> pLL;
-constexpr int MAX = 100002;
-// memo[i] = max(memo[i-1], memo[i-2]+arr[i]*i);
 int main(){
     FAST
     int n;
     cin >> n;
-    int arr[n];
-    for (int i = 0; i < n; i++)
+    int ans = 0;
+    int arr[5] = {100,20,10,5,1};
+    for (int i = 0; i < 5; i++)
     {
-        cin >> arr[i];
+        ans+=n/arr[i];
+        n-=n/arr[i]*arr[i];
     }
-    
+    cout<<ans<<endl;
     
 }

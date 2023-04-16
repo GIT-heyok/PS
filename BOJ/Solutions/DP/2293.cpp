@@ -32,11 +32,34 @@ const ll INF = 1e12;
 const int inf = 1e6;
 const ll MOD = 1e6;
 
-/*
-jadu can be eaten when 2-> moved odd, 1-> moved even
-memo[i][j] = max(memo[i-1][j-1]+((j)%2), memo[i-1][j]+(j+1)%2);
-          
-*/
+
+//count by coins!!!
 int main(){
-    FAST
+    FAST 
+    int n, k;
+    cin >> n >> k;
+    int memo[k+1];
+    int arr[n];
+    for (int i = 0; i < n; i++)
+    {
+        cin >> arr[i];
+    }
+    fill(memo, memo+k+1, 0);
+    memo[0]=1;
+    for (int i = 0; i < n; i++)
+    {
+         
+        for (int j = 0; j <= k; j++)
+        {
+            if(j-arr[i]>=0){
+                memo[j] += memo[j-arr[i]];
+            }    
+    
+        }
+        
+    }
+    
+    cout<<memo[k]<<endl;
+    
+    
 } 

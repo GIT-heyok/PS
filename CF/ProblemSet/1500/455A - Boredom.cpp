@@ -31,11 +31,23 @@ int main(){
     FAST
     int n;
     cin >> n;
-    int arr[n];
+    ll arr[MAX];
+    fill(arr, arr+MAX, 0);
     for (int i = 0; i < n; i++)
     {
-        cin >> arr[i];
+        int temp;
+        cin >> temp;
+        arr[temp]++;
     }
     
+    ll memo[MAX];
+    fill(memo, memo+MAX, -1);
+    memo[0] = 0;
+    memo[1] = arr[1];
+    for (ll i = 2; i < MAX; i++)
+    {   
+        memo[i] = max(memo[i-1], memo[i-2]+arr[i]*i);
+    }
+    cout<<memo[MAX-1]<<endl;
     
 }

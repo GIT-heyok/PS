@@ -33,10 +33,30 @@ const int inf = 1e6;
 const ll MOD = 1e6;
 
 /*
-jadu can be eaten when 2-> moved odd, 1-> moved even
-memo[i][j] = max(memo[i-1][j-1]+((j)%2), memo[i-1][j]+(j+1)%2);
-          
+going backwards!
+dp[i] = max(dp[i+1], p[i]+dp[i+t[i]])
 */
 int main(){
     FAST
+    int n;
+    cin >> n;
+    int t[n], p[n];
+    for (int i = 0; i < n; i++)
+    {
+        cin >> t[i]>>p[i];
+    }
+    int memo[n+1];
+    fill(memo, memo+n+1, 0);
+    for (int i = n-1; i >= 0; i--)
+    {
+        if(i+t[i]<=n){
+            memo[i] = max(memo[i+1], p[i]+memo[i+t[i]]);
+        }
+        else{
+            memo[i] = memo[i+1];
+        }
+    }
+    cout<<memo[0]<<endl;
+     
+    
 } 

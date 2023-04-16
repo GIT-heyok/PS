@@ -32,11 +32,27 @@ const ll INF = 1e12;
 const int inf = 1e6;
 const ll MOD = 1e6;
 
-/*
-jadu can be eaten when 2-> moved odd, 1-> moved even
-memo[i][j] = max(memo[i-1][j-1]+((j)%2), memo[i-1][j]+(j+1)%2);
-          
-*/
+ll memo[47];
+ll fibonacci(int n){
+    memo[1]=1;
+    memo[2]=1;
+    for (int i = 3; i <= n; i++)
+    {
+        memo[i] = memo[i-1]+memo[i-2];
+    }
+    return memo[n];
+    
+}
+
+
 int main(){
-    FAST
+    FAST 
+    int T;
+    cin >> T;
+    while(T--){
+        int n;
+        cin >> n;
+        cout<<fibonacci(n+1)<<endl;
+    }
+    
 } 

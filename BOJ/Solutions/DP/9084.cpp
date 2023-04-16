@@ -33,10 +33,35 @@ const int inf = 1e6;
 const ll MOD = 1e6;
 
 /*
-jadu can be eaten when 2-> moved odd, 1-> moved even
-memo[i][j] = max(memo[i-1][j-1]+((j)%2), memo[i-1][j]+(j+1)%2);
-          
+coin problem: iterate through list of coins
+and arr[i] = arr[i-coin[j]]
 */
 int main(){
-    FAST
-} 
+    FAST 
+    int T;
+    cin >> T;
+    while(T--){
+        int n;
+        cin >> n;
+        int arr[n];
+        for (int i = 0; i < n; i++)
+        {
+            cin >> arr[i];
+        }
+        int m;
+        cin >> m;
+        int memo[m+1];
+        fill(memo, memo+m+1, 0);
+        memo[0]=1;
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j <= m; j++)
+            {
+                if(j-arr[i]>=0)memo[j]+=memo[j-arr[i]];
+            }   
+        }
+        cout<<memo[m]<<endl;
+        
+        
+    }
+}
