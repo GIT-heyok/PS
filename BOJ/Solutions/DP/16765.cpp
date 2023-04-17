@@ -30,34 +30,44 @@ typedef pair<double, double> pD;
 const int MAX = 1000001;
 const ll INF = 1e12;
 const int inf = 1e6;
-const ll MOD = 9901;
+const ll MOD = 1e6;
 
-
+/*
+two for loops by level and n         
+*/
 int main(){
     FAST
-    ll pow[10000];
-    pow[0]=1;
-    for (int i = 1; i < 10000; i++)
+    int n,k;
+    cin >> n >> k;
+    int level[n];
+    for (int i = 0; i < n; i++)
     {
-        pow[i] = pow[i-1]*2;
-        pow[i]%=MOD;
+        cin >> level[i];
+    }
+    int dp[n+1];
+    for (int i = 0; i < n+1; i++)
+    {
+        dp[i] = 0;
     }
     
     
-    int n;
-    cin>>n;
-        ll ans = 0;
-        int cnt = 0;
-        int rcnt = 0;
-        while(n>0){
-            if(rcnt==0){
-                rcnt=cnt+1;
-                cnt++;
+     for(int i = 0; i < n; i++){
+            int mxm = 0;
+            for(int j = 0; j < k; j++){
+                if(i >= j){
+                    if(level[i - j] > mxm) mxm = level[i - j];
+                    dp[i + 1] = max(dp[i + 1], dp[i - j] + mxm * (j + 1));
+                }
             }
-            ans+=pow[cnt-1];
-            ans%=MOD;
-            rcnt--;
-            n--;
         }
-     cout<<ans<<endl;
+
+        for (int i = 0; i < n+1; i++)
+        {
+            cout<<dp[i]<<" ";
+        }
+        
+    cout<<dp[n]<<endl;
+    
+    
+    
 }

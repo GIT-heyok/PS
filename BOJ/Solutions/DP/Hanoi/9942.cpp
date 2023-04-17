@@ -16,7 +16,7 @@
     ios::sync_with_stdio(false); \
     cin.tie(nullptr);            \
     cout.tie(nullptr);
-#define endl '\n'
+// #define endl '\n'
 #define all(x) (x).begin(), (x).end()
 using namespace std;
 typedef long long ll;
@@ -30,22 +30,15 @@ typedef pair<double, double> pD;
 const int MAX = 1000001;
 const ll INF = 1e12;
 const int inf = 1e6;
-const ll MOD = 9901;
+const ll MOD = 1e9+7;
 
-
+//https://velog.io/@j1nhe0/PS-%EB%B0%B1%EC%A4%80-11729-1914-23250-9942-%ED%95%98%EB%85%B8%EC%9D%B4-%ED%83%91-C
 int main(){
     FAST
-    ll pow[10000];
-    pow[0]=1;
-    for (int i = 1; i < 10000; i++)
-    {
-        pow[i] = pow[i-1]*2;
-        pow[i]%=MOD;
-    }
-    
-    
     int n;
-    cin>>n;
+    int ccnt=0;
+    while(cin >> n){
+        ccnt++;
         ll ans = 0;
         int cnt = 0;
         int rcnt = 0;
@@ -54,10 +47,11 @@ int main(){
                 rcnt=cnt+1;
                 cnt++;
             }
-            ans+=pow[cnt-1];
-            ans%=MOD;
+            ans+=1ll<<(cnt-1);
             rcnt--;
             n--;
         }
-     cout<<ans<<endl;
+        cout<<"Case "<<ccnt<<": "<<ans<<endl;
+        
+    }
 }
