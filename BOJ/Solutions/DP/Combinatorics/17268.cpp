@@ -27,33 +27,43 @@ typedef pair<int, int> pI;
 typedef pair<ll, ll> pLL;
 typedef pair<double, double> pD;
 
-const int MAX = 100001;
 const ll INF = 1e12;
 const int inf = 1e6;
-const ll MOD = 1e7+3;
+const ll MOD = 987654321;
 
+/*
+let N/2=n: meaningful pair,
+drawing a line: making two different areas.
+and different area = same problem.
 
-int main()
-{
-    FAST;
+1. dp[n+1] and dp[0], dp[1]=1;
+dp[i+1] = dp[0]*dp[i]+dp[1]*dp[i-1]+...+dp[i]*dp[0];
+2. optimization by cutting indices in half
+3. print dp[n]
+*/
+int main(){
+    FAST
     int n;
     cin >> n;
-    int s[n];
-    for (int i = 0; i < n; i++)
+    n/=2;
+    ll dp[n+1];
+    dp[0]=1, dp[1]=1;
+    for (int i = 2; i <= n; i++)
     {
-        cin >> s[i];
-    }
-    
-    map<int, int> memo;
-    for (int i = 0; i < n; i++)
-    {
-        for (auto j: memo)
+        ll& temp = dp[i];
+        temp = 0;
+        for (int j = 0; j < i/2; j++)
         {
-            int& temp= memo[__gcd(j.first,s[i])];
-            temp =(temp+j.second)%MOD;
+            temp+=2*dp[j]*dp[i-j-1];
+            temp%=MOD;
         }
-        memo[s[i]]++;
-        memo[s[i]]%=MOD;
+        if(i%2==1){
+            temp+=dp[i/2]*dp[i/2];
+            temp%=MOD;
+        }
+
     }
-    cout<<memo[1]<<endl;
+    cout<<dp[n]<<endl;
+    
+
 }

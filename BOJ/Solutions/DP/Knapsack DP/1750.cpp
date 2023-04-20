@@ -32,7 +32,12 @@ const ll INF = 1e12;
 const int inf = 1e6;
 const ll MOD = 1e7+3;
 
-
+/*
+1. memo[MAX] = 0 (MAX=100001)
+2. iterate through 1~MAX-1 and memo[gcd(i,s[i])]+=memo[i]
+3. memo[s[i]]++
+4. print memo[1]
+*/
 int main()
 {
     FAST;
@@ -44,16 +49,17 @@ int main()
         cin >> s[i];
     }
     
-    map<int, int> memo;
+    ll memo[MAX];
+    fill(memo, memo+MAX, 0);
     for (int i = 0; i < n; i++)
     {
-        for (auto j: memo)
+        for (int j = 1; j < MAX; j++)
         {
-            int& temp= memo[__gcd(j.first,s[i])];
-            temp =(temp+j.second)%MOD;
+            memo[__gcd(j,s[i])]+=memo[j];
+            memo[__gcd(j, s[i])]%=MOD;
         }
         memo[s[i]]++;
         memo[s[i]]%=MOD;
     }
     cout<<memo[1]<<endl;
-}
+}  

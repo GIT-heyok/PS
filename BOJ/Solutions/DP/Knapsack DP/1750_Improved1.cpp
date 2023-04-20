@@ -30,30 +30,42 @@ typedef pair<double, double> pD;
 const int MAX = 100001;
 const ll INF = 1e12;
 const int inf = 1e6;
-const ll MOD = 1e7+3;
+const ll MOD = 1e7 + 3;
 
+/*
+check:
+https://nicotina04.tistory.com/47
+*/
+int seq[100];
+int dp[100][100001];
+
+int gcd(int a, int b) { return !b ? a : gcd(b, a % b); }
 
 int main()
 {
     FAST;
+
     int n;
     cin >> n;
-    int s[n];
-    for (int i = 0; i < n; i++)
+
+    for (int i = 0; i < n; ++i)
     {
-        cin >> s[i];
+        cin >> seq[i];
+        dp[i][seq[i]] = 1;
     }
-    
-    map<int, int> memo;
-    for (int i = 0; i < n; i++)
+
+    for (int i = 1; i < n; ++i)
     {
-        for (auto j: memo)
+        for (int j = 1; j <= 100000; ++j)
         {
-            int& temp= memo[__gcd(j.first,s[i])];
-            temp =(temp+j.second)%MOD;
+            dp[i][j] += dp[i - 1][j];
+            dp[i][j] %= MOD;
+
+            int cop = gcd(seq[i], j);
+            dp[i][cop] += dp[i - 1][j];
+            dp[i][cop] %= MOD;
         }
-        memo[s[i]]++;
-        memo[s[i]]%=MOD;
     }
-    cout<<memo[1]<<endl;
+
+    cout << dp[n - 1][1];
 }

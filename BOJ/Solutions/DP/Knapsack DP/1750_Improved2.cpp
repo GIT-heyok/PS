@@ -32,7 +32,14 @@ const ll INF = 1e12;
 const int inf = 1e6;
 const ll MOD = 1e7+3;
 
-
+/*
+1. memo[MAX] = 0 (MAX=100001)
+2. iterate through 1~MAX-1 and memo[gcd(i,s[i])]+=memo[i]
+3. memo[s[i]]++
+4. print memo[1]
+5. using std::map<int, int> is more benficial cause it is
+a sparse table wtf!
+*/
 int main()
 {
     FAST;
