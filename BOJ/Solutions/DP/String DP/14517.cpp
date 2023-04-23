@@ -31,21 +31,40 @@ const int MAX = 100001;
 const ll INF = 1e12;
 const int inf = 1e6;
 const ll MOD = 10007;
+/*
+1. palindrome+ inclusion exclusion
+*/
+ll dp[1000][1000];
+string ss;
+int solve(int s, int e){
+    if(dp[s][e]!=-1)return dp[s][e];
+    ll& temp = dp[s][e]=solve(s,e-1)+solve(s+1,e);
 
-//Generate a messi number and subtract whenever possible
+    if(ss[s]==ss[e]){
+        temp+=1;
+    }
+    else{
+        temp-=solve(s+1,e-1);
+    }
+    temp+=MOD;
+    temp%=MOD;
+    return temp;
+}
 int main()
 {
     FAST;
-    int n, k;
-    cin >> n >> k;
-    pair<int, int> m[n];
-    int memo[n][k+1];
-    for (int i = 0; i < n; i++)
+    cin >> ss;
+    int sz = ss.length();
+    for (int i = 0; i < sz; i++)
     {
-        int a, b;
-        cin >> a >> b; 
-        m[i] = {a,b};
+        for (int j = 0; j < sz; j++)
+        {
+            if(i==j)dp[i][j]=1;
+            else if(i<j)dp[i][j]=-1;
+            else dp[i][j] = 0;
+        }
     }
-    
+
+    cout<<solve(0,sz-1)<<endl;
     
 }
