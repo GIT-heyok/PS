@@ -96,7 +96,23 @@ vector<int> tarjanSCC()
             cnt++;
     }
 
-    cout << cnt << endl;
+    vector<int> ans;
+    if(cnt==1){
+        for (int i = 1; i < adj.size(); i++)
+        {
+            if(sccIndegree[sccId[i]]==0){
+                ans.push_back(i);
+            }
+        }
+    }
+    cout<<ans.size()<<endl;
+    for (int i: ans)
+    {
+        cout<<i<<" ";
+    }
+    cout<<endl;
+
+    
     return sccId;
 }
 int main()
@@ -104,7 +120,7 @@ int main()
     FAST int n, m;
     cin >> n >> m;
     adj.clear();
-    adj.resize(n+1, vector<int>());
+    adj.resize(n + 1, vector<int>());
     for (int i = 0; i < m; i++)
     {
         int a, b;

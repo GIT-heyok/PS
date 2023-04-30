@@ -104,7 +104,7 @@ int main()
     FAST int n, m;
     cin >> n >> m;
     adj.clear();
-    adj.resize(n+1, vector<int>());
+    adj.resize(n + 1, vector<int>());
     for (int i = 0; i < m; i++)
     {
         int a, b;

@@ -72,13 +72,13 @@ vector<int> tarjanSCC()
     sccId = discovered = vector<int>(adj.size(), -1);
     sccIndegree = vector<int>(adj.size(), 0);
     sccCounter = vertexCounter = 0;
-    for (int i = 1; i < adj.size(); i++)
+    for (int i = 0; i < adj.size(); i++)
     {
         if (discovered[i] == -1)
             scc(i);
     }
 
-    for (int i = 1; i < adj.size(); i++)
+    for (int i = 0; i < adj.size(); i++)
     {
         for (int j = 0; j < adj[i].size(); j++)
         {
@@ -104,7 +104,7 @@ int main()
     FAST int n, m;
     cin >> n >> m;
     adj.clear();
-    adj.resize(n+1, vector<int>());
+    adj.resize(n, vector<int>());
     for (int i = 0; i < m; i++)
     {
         int a, b;
