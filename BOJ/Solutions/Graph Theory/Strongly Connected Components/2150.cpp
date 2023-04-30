@@ -35,10 +35,9 @@ const int MAX = 1001;
 vector<vector<int>> adj;
 vector<int> sccId;
 vector<int> discovered;
-vector<int> sccIndegree;
 stack<int> st;
-//scc with starting position
 int sccCounter, vertexCounter;
+
 int scc(int here)
 {
     int ret = discovered[here] = vertexCounter++;
@@ -70,50 +69,60 @@ int scc(int here)
 vector<int> tarjanSCC()
 {
     sccId = discovered = vector<int>(adj.size(), -1);
-    sccIndegree = vector<int>(adj.size(), 0);
     sccCounter = vertexCounter = 0;
     for (int i = 1; i < adj.size(); i++)
     {
         if (discovered[i] == -1)
             scc(i);
     }
-
-    for (int i = 1; i < adj.size(); i++)
-    {
-        for (int j = 0; j < adj[i].size(); j++)
-        {
-            if (sccId[adj[i][j]] == sccId[i])
-                continue;
-            sccIndegree[sccId[adj[i][j]]]++;
-        }
-    }
-    int cnt = 0;
-    bool visited[sccCounter];
-    memset(visited, false, sizeof(visited));
-    for (int i = 0; i < sccCounter; i++)
-    {
-        if(sccIndegree[i]==0)cnt++;
-    }
-    
-    cout<<cnt<<endl;
     return sccId;
 }
 int main()
 {
-    FAST int T;
-    cin >> T;
-    while (T--)
+    FAST int v, e;
+    cin >> v >> e;
+    for (int i = 0; i <= v; i++)
     {
-        int n, m;
-        cin >> n >> m;
-        adj.clear();
-        adj.resize(n+1, vector<int>());
-        for (int i = 0; i < m; i++)
-        {
-            int a, b;
-            cin >> a >> b;
-            adj[a].push_back(b);
-        }
-        tarjanSCC();
+        adj.push_back(vector<int>());
     }
+    for (int i = 0; i < e; i++)
+    {
+        int a, b;
+        cin >> a >> b;
+        adj[a].push_back(b);
+    }
+
+    tarjanSCC();
+    cout << sccCounter << endl;
+    vector<vector<int>> ans;
+    for (int i = 0; i < sccCounter; i++)
+    {
+        ans.push_back(vector<int>());
+    }
+    int convert[sccCounter];
+    fill(convert, convert + sccCounter, -1);
+    int cnt = 0;
+    for (int i = 1; i < sccId.size(); i++)
+    {
+        if (convert[sccId[i]] == -1)
+        {
+            convert[sccId[i]] = cnt;
+            cnt++;
+        }
+    }
+
+    for (int i = 1; i < sccId.size(); i++)
+    {
+        ans[convert[sccId[i]]].push_back(i);
+    }
+    for (int i = 0; i < ans.size(); i++)
+    {
+        for (int j = 0; j < ans[i].size(); j++)
+        {
+            cout << ans[i][j] << " ";
+        }
+        cout << -1 << endl;
+    }
+
+    cout << endl;
 }
