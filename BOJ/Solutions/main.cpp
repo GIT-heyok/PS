@@ -30,86 +30,71 @@ typedef pair<double, double> pD;
 const ll INF = 1e12;
 const int inf = 1e9;
 const ll MOD = 1e6 + 7;
-const int MAX = 1001;
-
-vector<vector<int>> adj;
-vector<int> sccId;
-vector<int> discovered;
-vector<int> sccIndegree;
-stack<int> st;
-// scc with starting position
-int sccCounter, vertexCounter;
-int scc(int here)
-{
-    int ret = discovered[here] = vertexCounter++;
-    st.push(here);
-    for (int i = 0; i < adj[here].size(); i++)
-    {
-        int there = adj[here][i];
-        if (discovered[there] == -1)
-            ret = min(ret, scc(there));
-        else if (sccId[there] == -1)
-            ret = min(ret, discovered[there]);
-    }
-
-    if (ret == discovered[here])
-    {
-        while (true)
-        {
-            int t = st.top();
-            st.pop();
-            sccId[t] = sccCounter;
-            if (t == here)
-                break;
-        }
-        sccCounter++;
-    }
-    return ret;
-}
-
-vector<int> tarjanSCC()
-{
-    sccId = discovered = vector<int>(adj.size(), -1);
-    sccIndegree = vector<int>(adj.size(), 0);
-    sccCounter = vertexCounter = 0;
-    for (int i = 1; i < adj.size(); i++)
-    {
-        if (discovered[i] == -1)
-            scc(i);
-    }
-
-    for (int i = 1; i < adj.size(); i++)
-    {
-        for (int j = 0; j < adj[i].size(); j++)
-        {
-            if (sccId[adj[i][j]] == sccId[i])
-                continue;
-            sccIndegree[sccId[adj[i][j]]]++;
+const int MX = 1001;
+int n, m, k;
+struct Pos{
+	int x, y, breakCount, cost; 
+};
+int breakCount[MX][MX]; // k + 1 로 초기화
+bool board[MX][MX];
+int dx[4] = {0,0,1,-1};
+int dy[4] = {1,-1,0,0};
+int bfs() {
+    queue<Pos> q;
+    q.push(Pos{1, 1, 0, 1}); // x, y, breakCount, cost
+    breakCount[1][1] = 0;
+    
+    while(!q.empty()) {
+        Pos now = q.front();
+        q.pop();
+        
+        if(now.x == n && now.y == m)
+            return now.cost;
+        
+        for(int i = 0; i < 4; ++i) {
+            int nx = now.x + dx[i];
+            int ny = now.y + dy[i];
+            
+            if(!isInRange(nx, ny)) continue;
+            if(breakCount[nx][ny] <= now.breakCount) continue;
+            
+            if(board[nx][ny]) {
+                if(now.breakCount >= k) continue;
+               
+                if(now.cost % 2 == 0) {  // night
+                    q.push(Pos(now.x, now.y, now.breakCount, now.cost + 1));
+                }
+                else {  // day
+                    breakCount[nx][ny] = now.breakCount;
+                    q.push(Pos(nx, ny, now.breakCount + 1, now.cost + 1));
+                }
+            }
+            else if(!board[nx][ny]) {
+                breakCount[nx][ny] = now.breakCount;
+                q.push(Pos(nx, ny, now.breakCount, now.cost + 1));
+            }
         }
     }
-    int cnt = 0;
-    bool visited[sccCounter];
-    memset(visited, false, sizeof(visited));
-    for (int i = 0; i < sccCounter; i++)
-    {
-        if (sccIndegree[i] == 0)
-            cnt++;
-    }
-
-    cout << cnt << endl;
-    return sccId;
+    return -1;
 }
 int main()
 {
-    FAST int n, m;
-    cin >> n >> m;
-    adj.clear();
-    adj.resize(n+1, vector<int>());
-    for (int i = 0; i < m; i++)
+    FAST 
+    cin >> n >> m >> k;
+    for (int i = 0; i < n; i++)
     {
-        int a, b;
-        cin >> a >> b;
-        adj[a].push_back(b);
+        string s;
+        cin >> s;
+        for (int j = 0; j < m; j++)
+        {
+            board[i][j]=s[i]-'0';
+            breakCount[i][j]=k+1;
+            
+        }
+        
     }
-    tarjanSCC();
+    
+    cout<<bfs()<<endl;
+    
+    
 }
