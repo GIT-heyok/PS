@@ -31,7 +31,7 @@ const ll INF = 1e12;
 const int inf = 1234567890;
 const ll MOD = 1000;
 
-const int MAXN = 100010;
+const int MAXN = 1000010;
 
 int z[MAXN];
 
@@ -71,3 +71,4 @@ int main()
         cout << z[s.length()-temp] << endl;
     }
 }
+

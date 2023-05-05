@@ -30,44 +30,33 @@ const int MAX = 50001;
 const ll INF = 1e12;
 const int inf = 1234567890;
 const ll MOD = 1000;
-
-const int MAXN = 100010;
-
-int z[MAXN];
-
-void get_z(string& S) {
-    int N = S.length();
-	z[0] = N;	// 그냥 의미상 N
-	int L = 0, R = 0;
-	for(int i = 1; i < N; i++) {
-		if(R < i) {
-			for(z[i] = 0; S[z[i]] == S[i + z[i]]; z[i]++);
-			L = i;
-			R = i + z[i] - 1;
-		}
-		else {
-			if(z[i - L] <= R - i) z[i] = z[i - L];
-			else {
-				for(z[i] = R - i + 1; S[z[i]] == S[i + z[i]]; z[i]++);
-				L = i;
-				R = i + z[i] - 1;
-			}
-		}
-	}
-}
 int main()
 {
-    FAST
-        string s;
-    cin >> s;
-    reverse(all(s));
-    get_z(s);
-    int m;
-    cin >> m;
-    for (int i = 0; i < m; i++)
+    FAST 
+    int n;
+    cin >> n;
+    vector<pLL> coord(n);
+    for (int i = 0; i < n; i++)
     {
-        int temp;
-        cin >> temp;
-        cout << z[s.length()-temp] << endl;
+        ll a, b;
+        cin >> a >> b;
+        coord[i] = {a,b};
     }
+    sort(all(coord));
+    ll curMax = INF;
+    for (int i = 0; i < n; i++)
+    {   
+        ll x1 = coord[i].first;
+        ll y1 = coord[i].second;
+        for (int j = i+1; j < n; j++)
+        {
+            ll x2 = coord[j].first;
+            ll y2 = coord[j].second;
+            if((x2-x1)*(x2-x1)>=curMax)break;
+            curMax = min(curMax, (x1-x2)*(x1-x2)+(y1-y2)*(y1-y2));
+        }   
+    }
+    cout<<curMax<<endl;
+    
+    
 }

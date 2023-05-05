@@ -31,9 +31,9 @@ const ll INF = 1e12;
 const int inf = 1234567890;
 const ll MOD = 1000;
 
-const int MAXN = 100010;
+const int MAXN = 500010;
 
-int z[MAXN];
+ll z[MAXN];
 
 void get_z(string& S) {
     int N = S.length();
@@ -62,12 +62,13 @@ int main()
     cin >> s;
     reverse(all(s));
     get_z(s);
-    int m;
-    cin >> m;
-    for (int i = 0; i < m; i++)
+
+    int k;
+    cin >> k;
+    ll mxm = 0;
+    for (int i = 1; i < s.length(); i++)
     {
-        int temp;
-        cin >> temp;
-        cout << z[s.length()-temp] << endl;
+       mxm= max(mxm, z[i]);
     }
+    cout<<s.length()+(s.length()-mxm)*(k-1)<<endl;
 }
