@@ -26,32 +26,25 @@ typedef vector<ll> vll;
 typedef pair<int, int> pI;
 typedef pair<ll, ll> pLL;
 typedef pair<double, double> pD;
-const int MAX = 16;
+const int MAX = 15;
 const double INF = 1e12;
 const int inf = 1234567890;
 const ll MOD = 1e9 + 7;
-int n,k;
-ll memo[MAX][1<<MAX];
-int height[MAX];
-ll dfs(int cur, int bit){
-    if(cur==-1){
-        ll ans = 0;
-        for (int i = 0; i < n; i++)
-        {
-            ans += dfs(i, (1<<i));
-        }
-        return ans;
-    }
-    if(bit==(1<<n)-1)return 1;
-
-    ll& temp = memo[cur][bit];
+int arr[MAX][MAX];
+int n;
+int memo[MAX][1<<MAX][10];
+/*
+이 왜 맞 ㅋㅋ
+*/
+int dfs(int cur, int bit, int curVal){
+    int& temp = memo[cur][bit][curVal];
     if(temp!=-1)return temp;
-    temp = 0;
+    temp = 1;
     for (int i = 0; i < n; i++)
     {
-        if(abs(height[cur]-height[i])<=k)continue;
-        if(bit&(1<<i))continue;
-        temp += dfs(i,bit+(1<<i));
+        if(arr[cur][i]<curVal)continue;//check for condition
+        if(bit&(1<<i))continue;//check if already visited
+        temp = max(temp, 1+dfs(i,bit+(1<<i), arr[cur][i]));
     }
     return temp;
     
@@ -59,14 +52,21 @@ ll dfs(int cur, int bit){
 int main()
 {
     FAST 
-    cin >> n >> k;
+    cin >> n;
     for (int i = 0; i < n; i++)
     {
-        cin >> height[i];
+        string s;
+        cin >> s;
+        for (int j = 0; j < n; j++)
+        {
+            arr[i][j]= s[j]-'0';
+        }
     }
+
     
-    fill(&memo[0][0], &memo[MAX-1][(1<<MAX)-1], -1);
-    cout<<dfs(-1,0)<<endl;
+    fill(&memo[0][0][0], &memo[MAX-1][(1<<MAX)-1][10], -1);
+    cout<<dfs(0,1,0)<<endl;
     
+
     
 }

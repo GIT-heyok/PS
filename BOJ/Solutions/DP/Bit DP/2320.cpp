@@ -30,28 +30,28 @@ const int MAX = 16;
 const double INF = 1e12;
 const int inf = 1234567890;
 const ll MOD = 1e9 + 7;
-int n,k;
-ll memo[MAX][1<<MAX];
-int height[MAX];
-ll dfs(int cur, int bit){
+int n;
+int memo[MAX][1<<MAX];
+
+vector<int> graph[MAX];
+string words[MAX];
+int dfs(int cur, int bit){
     if(cur==-1){
-        ll ans = 0;
+        int ans = 0;
         for (int i = 0; i < n; i++)
         {
-            ans += dfs(i, (1<<i));
+            ans = max(ans, dfs(i, (1<<i)));
         }
         return ans;
     }
-    if(bit==(1<<n)-1)return 1;
-
-    ll& temp = memo[cur][bit];
+    int& temp = memo[cur][bit];
     if(temp!=-1)return temp;
-    temp = 0;
-    for (int i = 0; i < n; i++)
+    temp = words[cur].length();
+    for (int i = 0; i < graph[cur].size(); i++)
     {
-        if(abs(height[cur]-height[i])<=k)continue;
-        if(bit&(1<<i))continue;
-        temp += dfs(i,bit+(1<<i));
+        int next=graph[cur][i];
+        if(bit&(1<<next))continue;
+        temp = max(temp, (int)words[cur].length()+dfs(next,bit+(1<<next)));
     }
     return temp;
     
@@ -59,12 +59,23 @@ ll dfs(int cur, int bit){
 int main()
 {
     FAST 
-    cin >> n >> k;
+    cin >> n;
     for (int i = 0; i < n; i++)
     {
-        cin >> height[i];
+        cin >> words[i];
     }
-    
+    for (int i = 0; i < n; i++)
+    {
+        char iEnd = words[i][words[i].length()-1];
+        for (int j = 0; j < n; j++)
+        {
+            if(i==j)continue;
+            char jStart = words[j][0];
+            if(iEnd==jStart){
+                graph[i].push_back(j);
+            }   
+        }
+    }
     fill(&memo[0][0], &memo[MAX-1][(1<<MAX)-1], -1);
     cout<<dfs(-1,0)<<endl;
     

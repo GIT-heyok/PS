@@ -30,28 +30,28 @@ const int MAX = 16;
 const double INF = 1e12;
 const int inf = 1234567890;
 const ll MOD = 1e9 + 7;
-int n,k;
-ll memo[MAX][1<<MAX];
-int height[MAX];
-ll dfs(int cur, int bit){
-    if(cur==-1){
-        ll ans = 0;
-        for (int i = 0; i < n; i++)
-        {
-            ans += dfs(i, (1<<i));
-        }
-        return ans;
-    }
-    if(bit==(1<<n)-1)return 1;
+double dist[MAX][MAX];
+int n;
+double memo[MAX][1<<MAX];
+double getDist(pair<double, double> coord1, pair<double, double> coord2){
+    double x = coord1.first-coord2.first;
+    double y = coord1.second-coord2.second;
+    return sqrt(x*x+y*y);
+}
 
-    ll& temp = memo[cur][bit];
+double dfs(int cur, int bit){
+    if(bit==((1<<n)-1)){
+        if(dist[cur][0]==0)return INF;
+        return dist[cur][0];
+    }
+    double& temp = memo[cur][bit];
     if(temp!=-1)return temp;
-    temp = 0;
+    temp = INF;
     for (int i = 0; i < n; i++)
     {
-        if(abs(height[cur]-height[i])<=k)continue;
+        if(dist[cur][i]==0)continue;
         if(bit&(1<<i))continue;
-        temp += dfs(i,bit+(1<<i));
+        temp = min(temp, dist[cur][i]+dfs(i,bit+(1<<i)));
     }
     return temp;
     
@@ -59,14 +59,25 @@ ll dfs(int cur, int bit){
 int main()
 {
     FAST 
-    cin >> n >> k;
+    cin >> n;
+    pair<double, double> coord[n];
     for (int i = 0; i < n; i++)
     {
-        cin >> height[i];
+        int a, b;
+        cin >> a >> b;
+        coord[i] = {a,b};
     }
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            dist[i][j] = getDist(coord[i], coord[j]);
+        }
+    }
+    fill(&memo[0][0], &memo[15][1<<16], -1);
+    cout<<setprecision(15)<<fixed;
+    cout<<dfs(0,1)<<endl;
     
-    fill(&memo[0][0], &memo[MAX-1][(1<<MAX)-1], -1);
-    cout<<dfs(-1,0)<<endl;
-    
+
     
 }
