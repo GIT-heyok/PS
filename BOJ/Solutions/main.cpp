@@ -27,102 +27,68 @@ typedef pair<int, int> pI;
 typedef pair<ll, ll> pLL;
 typedef pair<double, double> pD;
 const int MAX = 100001;
+const int MAX_DEPTH = 16;
 const ll INF = 1e12;
-const int inf = 1234567890;
+const int inf = (1 << 29);
 const ll MOD = 1e9 + 7;
-vector<pI> graph[MAX + 1];
-int depth[MAX + 1];
-int parent[17][MAX + 1][3]; //0: node, 1: min, 2: mxm
-
-void realGraph(int prev, int cur, int d) {
-    for (int i = 0; i < graph[cur].size(); ++i) {
-        int next = graph[cur][i].first;
-        if (prev == cur) {
-            parent[0][prev][0] = cur;
-            parent[0][prev][1] = inf;
-            parent[0][prev][2] = 0;
-
-            depth[cur] = 0;
-        }
-        if (next != prev) {
-            parent[0][next][0] = cur;
-            parent[0][next][1] = graph[cur][i].second;
-            parent[0][next][2] = graph[cur][i].second;
-            depth[next] = d + 1;
-            realGraph(cur, next, d + 1);
-        }
-    }
-}
 
 int main() {
     FAST
-    int n;
-    cin >> n;
-    for (int i = 0; i < n - 1; ++i) {
-        int a, b, c;
-        cin >> a >> b >> c;
-        graph[a].push_back({b, c});
-        graph[b].push_back({a, c});
-    }
-    realGraph(1, 1, 0);
-    for (int i = 0; i < 16; ++i) {
-        for (int j = 1; j <= n; ++j) {
-            parent[i + 1][j][0] = parent[i][parent[i][j][0]][0];
-            parent[i + 1][j][1] = min(parent[i][j][1], parent[i][parent[i][j][0]][1]);
-            parent[i + 1][j][2] = max(parent[i][parent[i][j][0]][2], parent[i][j][2]);
-
-        }
-    }
-//    for (int j = 0; j < 3; ++j) {
-//
-//        for (int i = 1; i < n + 1; ++i) {
-//            cout << "(" << parent[j][i][0] << " " << parent[j][i][1] << " " << parent[j][i][2] << ") ";
-//        }
-//        cout << endl;
-//    }
-//    for (int i = 1; i < n+1; ++i) {
-//        cout<<depth[i]<<" ";
-//    }
-//    cout<<endl;
-    int m;
-    cin >> m;
+    int n, m, k;
+    vector<pI> graphMax[n + 1];
+    vector<pI> graphMin[n + 1];
     for (int i = 0; i < m; ++i) {
+        char c;
         int a, b;
-        int mnm = inf, mxm = 0;
-        cin >> a >> b;
-        int lca = a;
-        if (depth[a] != depth[b]) {
-            if (depth[a] > depth[b])swap(a, b);
-            for (int j = 16; j >= 0; --j) {
-                if (depth[a] <= depth[parent[j][b][0]]) {
-                    mnm = min(mnm, parent[j][b][1]);
-                    mxm = max(mxm, parent[j][b][2]);
-                    b = parent[j][b][0];
-                }
-            }
+        cin >> c >> a >> b;
+        if (c == 'B') {
+            graphMax[a].push_back({b, 0});
+            graphMax[b].push_back({a, 0});
+            graphMin[a].push_back({b, 1});
+            graphMin[b].push_back({a, 1});
+        } else {
+
+            graphMax[a].push_back({b, 1});
+            graphMax[b].push_back({a, 1});
+            graphMin[a].push_back({b, 0});
+            graphMin[b].push_back({a, 0});
         }
-
-        if (a != b) {
-            for (int j = 16; j >= 0; --j) {
-                if (parent[j][a][0] != parent[j][b][0]) {
-                    mnm = min(mnm, parent[j][b][1]);
-                    mxm = max(mxm, parent[j][b][2]);
-                    mnm = min(mnm, parent[j][a][1]);
-                    mxm = max(mxm, parent[j][a][2]);
-                    a = parent[j][a][0];
-                    b = parent[j][b][0];
-                }
-
-            }
-            mnm = min(mnm, parent[0][b][1]);
-            mxm = max(mxm, parent[0][b][2]);
-            mnm = min(mnm, parent[0][a][1]);
-            mxm = max(mxm, parent[0][a][2]);
-            lca = parent[0][a][0];
-
-        }
-        cout << mnm << " " << mxm << endl;
-
     }
+    bool visited[n + 1];
+    fill(visited, visited + n + 1, false);
+    priority_queue<pI> pq;
+    pq.push({0, 1});
+    int ans1 = 0;
+    while (!pq.empty()) {
+        int curNode = pq.top().second;
+        int curVal = -pq.top().first;
+        pq.pop();
+        if (visited[curNode])continue;
+        ans1 += curVal;
+        visited[curNode] = true;
+        for (int i = 0; i < graphMax[curNode].size(); ++i) {
+            int nextNode = graphMax[curNode][i].first;
+            int nextVal = graphMax[curNode][i].second;
+            if (!visited[nextNode])pq.push({-nextVal, nextNode});
+        }
+    }
+    pq.push({0, 1});
+    int ans2 = 0;
 
+    fill(visited, visited + n + 1, false);
+    while (!pq.empty()) {
+        int curNode = pq.top().second;
+        int curVal = -pq.top().first;
+        pq.pop();
+        if (visited[curNode])continue;
+        ans2 += curVal;
+        visited[curNode] = true;
+        for (int i = 0; i < graphMin[curNode].size(); ++i) {
+            int nextNode = graphMin[curNode][i].first;
+            int nextVal = graphMin[curNode][i].second;
+            if (!visited[nextNode])pq.push({-nextVal, nextNode});
+        }
+    }
+    ans1 = n - 1 - ans1;
+    cout << (k >= ans2 && k <= ans1) << endl;
 }

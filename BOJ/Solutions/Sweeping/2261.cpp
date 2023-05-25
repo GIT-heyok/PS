@@ -29,7 +29,7 @@ typedef pair<double, double> pD;
 const int MAX = 100001;
 const int MAX_DEPTH = 16;
 const ll INF = 1e12;
-const int inf = (1<<29);
+const int inf = (1<<30);
 const ll MOD = 1e9 + 7;
 int getDist(pI a, pI b){
     int x = a.first-b.first;
@@ -41,38 +41,29 @@ int main() {
 
     int n;
     cin >> n;
-    vector<pair<pI,int>> arr(n);
+    vector<pI> arr(n);
     for (int i = 0; i < n; ++i) {
-        int x,y;
-        cin >> x >> y;
-        int val = 1;
-        if(x<0){x=-x;val++;}
-        if(y<0){y=-y;val+=2;}
-        arr[i]={{x,y},val};
-        cout<<arr[i].first.first<<" "<<arr[i].first.second<<arr[i].second<<endl;
+        cin >> arr[i].first >> arr[i].second;
     }
     sort(all(arr));
     set<pI> s;
-    int mnm = getDist(arr[0].first, arr[1].first);
-    cout<<arr[0].first.first<<" "<<arr[0].first.second<< " "<<arr[1].first.first<<" "<<arr[1].first.second<<endl;
-    s.insert({arr[0].first.second, arr[0].first.first});
-    s.insert({arr[1].first.second, arr[1].first.first});
+    int mnm = getDist(arr[0], arr[1]);
+    s.insert({arr[0].second, arr[0].first});
+    s.insert({arr[1].second, arr[1].first});
     int idx = 0;
     for (int i = 2; i < n; ++i) {
-        cout<<mnm<<endl;
         while(idx<i){
-            int d = arr[i].first.first - arr[idx].first.first;
+            int d = arr[i].first - arr[idx].first;
             if(d*d<=mnm)break;
-            s.erase({arr[idx].first.second,arr[idx].first.first});
+            s.erase({arr[idx].second,arr[idx].first});
             idx++;
         }
         auto start = s.lower_bound({arr[i].second-sqrt(mnm),-inf});
         auto end= s.upper_bound({arr[i].second+sqrt(mnm),inf});
         for (auto it=start; it!=end; ++it) {
-            mnm = min(mnm, getDist({it->second, it->first}, arr[i].first));
-            cout<<it->second<<" "<<it->first<<" "<<arr[i].first.first<<" "<<arr[i].first.second<<endl;
+            mnm = min(mnm, getDist({it->second, it->first}, arr[i]));
         }
-        s.insert({arr[i].first.second, arr[i].first.first});
+        s.insert({arr[i].second, arr[i].first});
     }
     cout<<mnm<<endl;
 }
