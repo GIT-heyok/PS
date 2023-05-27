@@ -26,10 +26,12 @@ typedef vector<ll> vll;
 typedef pair<int, int> pI;
 typedef pair<ll, ll> pLL;
 typedef pair<double, double> pD;
-const int MAX = 1;
+const int MAX = 200005;
+const int MAX_DEPTH = 16;
 const ll INF = 1e12;
-const int inf = 1234567890;
-const ll MOD = 1000;
+const int inf = (1 << 29);
+const ll MOD = 1e9 + 7;
+//getting kth element with seg tree
 struct segtree
 {
     int n;
@@ -65,39 +67,21 @@ struct segtree
         update(0, n - 1, ii, 0, val);
     }
 
-    ll get(int ss, int se, int qs, int qe, int idx)
+    ll get(int ss, int se, int idx, int k)
     {
-        if (qs > se || qe < ss) // out of bound
-            return -INF;
-        if (qs <= ss && qe >= se)
-        {
-            return t[idx];
-        }
+        if(ss==se)return ss;
+
         int mid = (ss + se) / 2;
-        ll curSum = a[mid];
-        ll sum1 = -INF;
-        for (int i = mid-1; i>=ss&&i>=qs; i--)
-        {
-            curSum+=a[i];
-            sum1 = max(sum1, curSum);
-        }
-        curSum = a[mid+1];
-        ll sum2 = -INF;
-        for (int i = mid+2; i<=se&&i<=qe; i++)
-        {
-            curSum+=a[i];
-            sum2 = max(sum2, curSum);
-        }
-        ll ret =max(sum1+sum2,max(get(ss, mid, qs, qe, 2 * idx + 1), get(mid + 1, se, qs, qe, 2 * idx + 2)));
-        return ret;
+        if(t[2*idx+1]>=k)return get(ss,mid,2*idx+1, k);
+        else return get(mid+1, se, 2*idx+2,k-t[2*idx+1]);
     }
 
     /**interface to call get function
      * l and r in this function is 0-indexed
      */
-    ll get(int l, int r)
+    ll get(int k)
     {
-        return get(0, n - 1, l, r, 0);
+        return get(0, n - 1, 0, k);
     }
     void build(int ss, int se, int idx)
     {
@@ -107,24 +91,9 @@ struct segtree
             return;
         }
         int mid = (ss + se) / 2;
-        ll curSum = a[mid];
-        ll sum1 = -INF;
-        for (int i = mid-1; i>=ss; i--)
-        {
-            curSum+=a[i];
-            sum1 = max(sum1, curSum);
-        }
-        curSum = a[mid+1];
-        ll sum2 = -INF;
-        for (int i = mid+2; i<=se; i++)
-        {
-            curSum+=a[i];
-            sum2 = max(sum2, curSum);
-        }
-        t[idx] = max(sum1+sum2, t[idx]);
         build(ss, mid, 2 * idx + 1);
         build(mid + 1, se, 2 * idx + 2);
-        t[idx] = max(t[2 * idx + 1],t[2 * idx + 2]);
+        t[idx] = t[2 * idx + 1] + t[2 * idx + 2];
     }
 
     /**interface to call build function*/
@@ -140,21 +109,23 @@ int main()
 
         int n;
     cin >> n;
-    segtree s(n);
-    for (int i = 0; i < n; i++)
-    {
-        cin >> s.a[i];
-        
-    }
-    
+    segtree s(2000001);
     s.build();
-    int q;
-    cin>> q;
-    for (int i = 0; i < q; i++)
+    for (int i = 0; i < n; i++)
     {
         int a, b;
         cin >> a >> b;
-        cout<<s.get(a-1, b-1)<<endl;
+        if(a==1){
+            s.update(b,s.a[b]+1);
+            s.a[b]++;
+        }
+        else{
+            int ans = s.get(b);
+            cout<<ans<<endl;
+            s.update(ans,s.a[ans]-1);
+            s.a[ans]--;
+
+        }
     }
     
 }
