@@ -1,0 +1,131 @@
+#include <iostream>
+#include <vector>
+#include <stack>
+#include <queue>
+#include <sstream>
+#include <string>
+#include <algorithm>
+#include <numeric>
+#include <iomanip>
+#include <set>
+#include <map>
+#include <cmath>
+#include <memory.h>
+
+#define FAST                     \
+    ios::sync_with_stdio(false); \
+    cin.tie(nullptr);            \
+    cout.tie(nullptr);
+#define endl '\n'
+#define all(x) (x).begin(), (x).end()
+using namespace std;
+typedef long long ll;
+typedef long double ld;
+typedef vector<int> vi;
+typedef vector<ll> vll;
+typedef pair<int, int> pI;
+typedef pair<ll, ll> pLL;
+typedef pair<double, double> pD;
+const int MAX = 200005;
+const int MAX_DEPTH = 16;
+const ll INF = 1e12;
+const int inf = (1 << 29);
+const ll MOD = 1e9 + 7;
+//getting kth element with seg tree
+struct segtree
+{
+    int n;
+    vll a, t;
+    segtree(int sz)
+    {
+        n = sz;
+        a.resize(n);
+        t.resize(4 * n);
+    }
+
+    void update(int ss, int se, int ii, int idx, ll value)
+    {
+        // cout<<idx<<" "<<t[idx]<<endl;
+        if (ii > se || ii < ss)
+            return;
+        if (ii == ss && ss == se)
+        {
+            t[idx] = value;
+            return;
+        }
+        int mid = (ss + se) / 2;
+        update(ss, mid, ii, 2 * idx + 1, value);
+        update(mid + 1, se, ii, 2 * idx + 2, value);
+        t[idx] = t[2 * idx + 1] + t[2 * idx + 2];
+    }
+
+    /**interface to call update function
+     * l and r in this function is 0-indexed
+     */
+    void update(int ii, ll val)
+    {
+        update(0, n - 1, ii, 0, val);
+    }
+
+    ll get(int ss, int se, int idx, int k)
+    {
+        if(ss==se)return ss;
+
+        int mid = (ss + se) / 2;
+        if(t[2*idx+1]>=k)return get(ss,mid,2*idx+1, k);
+        else return get(mid+1, se, 2*idx+2,k-t[2*idx+1]);
+    }
+
+    /**interface to call get function
+     * l and r in this function is 0-indexed
+     */
+    ll get(int k)
+    {
+        return get(0, n - 1, 0, k);
+    }
+    void build(int ss, int se, int idx)
+    {
+        if (ss == se)
+        {
+            t[idx] = a[ss];
+            return;
+        }
+        int mid = (ss + se) / 2;
+        build(ss, mid, 2 * idx + 1);
+        build(mid + 1, se, 2 * idx + 2);
+        t[idx] = t[2 * idx + 1] + t[2 * idx + 2];
+    }
+
+    /**interface to call build function*/
+    void build()
+    {
+        build(0, n - 1, 0);
+    }
+};
+
+int main()
+{
+    FAST
+
+        int n;
+    cin >> n;
+    segtree s(2000001);
+    s.build();
+    for (int i = 0; i < n; i++)
+    {
+        int a, b;
+        cin >> a >> b;
+        if(a==1){
+            s.update(b,s.a[b]+1);
+            s.a[b]++;
+        }
+        else{
+            int ans = s.get(b);
+            cout<<ans<<endl;
+            s.update(ans,s.a[ans]-1);
+            s.a[ans]--;
+
+        }
+    }
+    
+}

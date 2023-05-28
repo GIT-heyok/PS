@@ -34,51 +34,61 @@ const ll MOD = 1e9 + 7;
 
 int main() {
     FAST
-    int T;
-    cin >> T;
-    while(T--){
-        int k, n;
-        cin >> n >> k;
-        vll arr(n);
-        for (int i = 0; i < n; ++i) {
-            cin >> arr[i];
-        }
-        vll prefix(n+1), suffix(n+1);
-        auto check = [&](ll x){
-            for (int i = 0; i < 2; ++i) {
-                priority_queue<ll> cur;
-                prefix[0] = 0;
-                ll curSum = 0;
-                for (int j = 0; j < n; ++j) {
-                    cur.push(arr[j]);
-                    curSum+=arr[j];
-                    while(curSum>x){
-                        curSum-=cur.top();
-                        cur.pop();
-                    }
-                    prefix[j+1] = cur.size();
-                }
-                reverse(all(arr));
-                swap(prefix, suffix);
-            }
-            reverse(all(suffix));
-            for (int i = 0; i < n + 1; ++i) {
-                if(prefix[i]+suffix[i]>=k)return true;
-            }
-            return false;
-        };
-        ll l=1, r = accumulate(all(arr), 0ll);
-//        cout<<r<<endl;
-        ll res = 0;
-        while(l<=r){
-            ll mid = (l+r)/2;
-            if(check(mid)){
-                res = mid;
-                r = mid-1;
-            }
-            else l = mid+1;
-        }
-        cout<<res<<endl;
+    int n, m, k;
+    vector<pI> graphMax[n + 1];
+    vector<pI> graphMin[n + 1];
+    for (int i = 0; i < m; ++i) {
+        char c;
+        int a, b;
+        cin >> c >> a >> b;
+        if (c == 'B') {
+            graphMax[a].push_back({b, 0});
+            graphMax[b].push_back({a, 0});
+            graphMin[a].push_back({b, 1});
+            graphMin[b].push_back({a, 1});
+        } else {
 
+            graphMax[a].push_back({b, 1});
+            graphMax[b].push_back({a, 1});
+            graphMin[a].push_back({b, 0});
+            graphMin[b].push_back({a, 0});
+        }
     }
+    bool visited[n + 1];
+    fill(visited, visited + n + 1, false);
+    priority_queue<pI> pq;
+    pq.push({0, 1});
+    int ans1 = 0;
+    while (!pq.empty()) {
+        int curNode = pq.top().second;
+        int curVal = -pq.top().first;
+        pq.pop();
+        if (visited[curNode])continue;
+        ans1 += curVal;
+        visited[curNode] = true;
+        for (int i = 0; i < graphMax[curNode].size(); ++i) {
+            int nextNode = graphMax[curNode][i].first;
+            int nextVal = graphMax[curNode][i].second;
+            if (!visited[nextNode])pq.push({-nextVal, nextNode});
+        }
+    }
+    pq.push({0, 1});
+    int ans2 = 0;
+
+    fill(visited, visited + n + 1, false);
+    while (!pq.empty()) {
+        int curNode = pq.top().second;
+        int curVal = -pq.top().first;
+        pq.pop();
+        if (visited[curNode])continue;
+        ans2 += curVal;
+        visited[curNode] = true;
+        for (int i = 0; i < graphMin[curNode].size(); ++i) {
+            int nextNode = graphMin[curNode][i].first;
+            int nextVal = graphMin[curNode][i].second;
+            if (!visited[nextNode])pq.push({-nextVal, nextNode});
+        }
+    }
+    ans1 = n - 1 - ans1;
+    cout << (k >= ans2 && k <= ans1) << endl;
 }
