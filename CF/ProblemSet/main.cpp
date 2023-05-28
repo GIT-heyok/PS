@@ -29,13 +29,11 @@ constexpr int MAX = 100002;
 // memo[i] = max(memo[i-1], memo[i-2]+arr[i]*i);
 int main(){
     FAST
-    int n;
-    cin >> n;
-    int arr[n];
-    for (int i = 0; i < n; i++)
-    {
-        cin >> arr[i];
+    int T;
+    cin >> T;
+    while(T--){
+
     }
-    
+
     
 }
