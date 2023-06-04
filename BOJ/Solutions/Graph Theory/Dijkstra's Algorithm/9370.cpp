@@ -31,6 +31,14 @@ const int MAX_DEPTH = 16;
 const ll INF = 1e12;
 const int inf = (1 << 29);
 const ll MOD = 1e4 + 7;
+
+/*
+Dijkstra's algorithm with a little tweak
+(when it reaches the place, add bool
+if same length, leave it
+if there is a shorter distance toogle it back
+)
+*/
 int main()
 {
     FAST
