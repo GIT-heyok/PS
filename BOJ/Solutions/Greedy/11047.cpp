@@ -36,28 +36,18 @@ int main()
     FAST
     int n, k;
     cin >> n >> k;
-    vector<int> vec;
+    int coins[n];
     for (int i = 0; i < n; i++)
     {
-        int temp;
-        cin >>temp;
-        vec.push_back(temp);
+        cin >> coins[i];
     }
-    sort(all(vec));
-    vector<int> diff;
-    for (int i = 0; i < n-1; i++)
+    int ans = 0;
+    for (int i = n-1; i >= 0; i--)
     {
-        diff.push_back(vec[i+1]-vec[i]);
-    }
-    sort(all(diff));
-    int aa = n-k;
-    ll ans = 0;
-    for (int i = 0; i < aa; i++)
-    {
-        ans+=diff[i];
+        ans+=k/coins[i];
+        k-=k/coins[i]*coins[i];
     }
     cout<<ans<<endl;
-    
     
     
 }

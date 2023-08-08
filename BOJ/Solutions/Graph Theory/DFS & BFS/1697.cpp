@@ -31,33 +31,35 @@ const int MAX_DEPTH = 16;
 const ll INF = 1e12;
 const int inf = (1 << 29);
 const ll MOD = 1e4 + 7;
+
 int main()
 {
     FAST
     int n, k;
     cin >> n >> k;
-    vector<int> vec;
-    for (int i = 0; i < n; i++)
+    int arr[400000];
+    for (int i = 0; i < 400000; i++)
     {
-        int temp;
-        cin >>temp;
-        vec.push_back(temp);
+        arr[i] = inf;
     }
-    sort(all(vec));
-    vector<int> diff;
-    for (int i = 0; i < n-1; i++)
-    {
-        diff.push_back(vec[i+1]-vec[i]);
+    arr[n] = 0;
+    queue<int> q;
+    q.push(n);
+    while(!q.empty()){
+        int cur = q.front();
+        q.pop();
+        if(2*cur<400000&&arr[2*cur]>arr[cur]+1){
+            arr[2*cur] = arr[cur]+1;
+            q.push(2*cur);
+        }
+        if(cur+1<400000&&arr[cur+1]>arr[cur]+1){
+            arr[cur+1] = arr[cur]+1;
+            q.push(cur+1);
+        }
+        if(cur-1>=0&&arr[cur-1]>arr[cur]+1){
+            arr[cur-1] = arr[cur]+1;
+            q.push(cur-1);
+        }
     }
-    sort(all(diff));
-    int aa = n-k;
-    ll ans = 0;
-    for (int i = 0; i < aa; i++)
-    {
-        ans+=diff[i];
-    }
-    cout<<ans<<endl;
-    
-    
-    
+    cout<<arr[k]<<endl;
 }

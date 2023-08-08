@@ -31,33 +31,34 @@ const int MAX_DEPTH = 16;
 const ll INF = 1e12;
 const int inf = (1 << 29);
 const ll MOD = 1e4 + 7;
+
 int main()
 {
     FAST
-    int n, k;
-    cin >> n >> k;
-    vector<int> vec;
+    int n;
+    cin >> n;
+    vector<pLL> vec(n);
     for (int i = 0; i < n; i++)
     {
-        int temp;
-        cin >>temp;
-        vec.push_back(temp);
+        cin >> vec[i].second;
+    }
+    
+    for (int i = 0; i < n; i++)
+    {
+        cin >> vec[i].first;
     }
     sort(all(vec));
-    vector<int> diff;
-    for (int i = 0; i < n-1; i++)
-    {
-        diff.push_back(vec[i+1]-vec[i]);
-    }
-    sort(all(diff));
-    int aa = n-k;
     ll ans = 0;
-    for (int i = 0; i < aa; i++)
+    ans+=vec[0].second;
+    
+    priority_queue<ll> pq;
+    for (int i = 0; i < n/2-1; i++)
     {
-        ans+=diff[i];
+        pq.push(vec[i*2+1].second);
+        pq.push(vec[i*2+2].second);
+        ans+=pq.top();
+        pq.pop();
     }
     cout<<ans<<endl;
-    
-    
     
 }

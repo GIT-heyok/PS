@@ -31,6 +31,7 @@ const int MAX_DEPTH = 16;
 const ll INF = 1e12;
 const int inf = (1 << 29);
 const ll MOD = 1e4 + 7;
+//difference was the key.
 int main()
 {
     FAST

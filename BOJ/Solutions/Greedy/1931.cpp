@@ -34,30 +34,26 @@ const ll MOD = 1e4 + 7;
 int main()
 {
     FAST
-    int n, k;
-    cin >> n >> k;
-    vector<int> vec;
+    
+    int n;
+    cin >> n;
+    vector<pI> vec(n);
     for (int i = 0; i < n; i++)
     {
-        int temp;
-        cin >>temp;
-        vec.push_back(temp);
+        cin >> vec[i].first >> vec[i].second;
     }
     sort(all(vec));
-    vector<int> diff;
-    for (int i = 0; i < n-1; i++)
+    ll startPos = INF;
+    int ans = 0;
+    for (int i = n-1; i >= 0; i--)
     {
-        diff.push_back(vec[i+1]-vec[i]);
-    }
-    sort(all(diff));
-    int aa = n-k;
-    ll ans = 0;
-    for (int i = 0; i < aa; i++)
-    {
-        ans+=diff[i];
+        //cout<<startPos<<" "<<vec[i].first<<" "<<vec[i].second<<endl;
+        if(vec[i].second<startPos){
+            ans++;
+            startPos = vec[i].first;
+        }
     }
     cout<<ans<<endl;
-    
     
     
 }

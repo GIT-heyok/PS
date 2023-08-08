@@ -34,30 +34,29 @@ const ll MOD = 1e4 + 7;
 int main()
 {
     FAST
-    int n, k;
-    cin >> n >> k;
-    vector<int> vec;
+    
+    int n;
+    cin >> n;
+    vector<pI> vec(n);
     for (int i = 0; i < n; i++)
     {
-        int temp;
-        cin >>temp;
-        vec.push_back(temp);
+        cin >> vec[i].first >> vec[i].second; 
     }
     sort(all(vec));
-    vector<int> diff;
-    for (int i = 0; i < n-1; i++)
-    {
-        diff.push_back(vec[i+1]-vec[i]);
-    }
-    sort(all(diff));
-    int aa = n-k;
-    ll ans = 0;
-    for (int i = 0; i < aa; i++)
-    {
-        ans+=diff[i];
-    }
-    cout<<ans<<endl;
     
-    
+    priority_queue<int> pq;
+    int sz = 0;
+    int mx = 0;
+
+    pq.push(vec[0].second);
+    for (int i = 1; i < n; i++)
+    {
+        pq.push(-vec[i].second);
+
+        if(-pq.top()<=vec[i].first){
+            pq.pop();
+        }
+    }
+    cout<<pq.size()<<endl;
     
 }

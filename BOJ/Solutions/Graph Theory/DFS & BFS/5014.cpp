@@ -31,33 +31,39 @@ const int MAX_DEPTH = 16;
 const ll INF = 1e12;
 const int inf = (1 << 29);
 const ll MOD = 1e4 + 7;
+vector<int> pi(1000001);
 int main()
 {
     FAST
-    int n, k;
-    cin >> n >> k;
-    vector<int> vec;
-    for (int i = 0; i < n; i++)
+    int f, s, g, u, d;
+    cin >> f >> s >> g >> u >> d;
+    int visited[f+1];
+    for (int i = 0; i < f+1; i++)
     {
-        int temp;
-        cin >>temp;
-        vec.push_back(temp);
+        visited[i] = inf;
     }
-    sort(all(vec));
-    vector<int> diff;
-    for (int i = 0; i < n-1; i++)
-    {
-        diff.push_back(vec[i+1]-vec[i]);
+    visited[s] = 0;
+    queue<int> q;
+    q.push(s);
+    while(!q.empty()){
+        int now = q.front();
+        q.pop();
+        if(now+u<=f&&visited[now+u]>visited[now]+1){
+            visited[now+u] = visited[now]+1;
+            q.push(now+u);
+        }
+        
+        if(now-d>=1&&visited[now-d]>visited[now]+1){
+            visited[now-d] = visited[now]+1;
+            q.push(now-d);
+        }
     }
-    sort(all(diff));
-    int aa = n-k;
-    ll ans = 0;
-    for (int i = 0; i < aa; i++)
-    {
-        ans+=diff[i];
+
+    if(visited[g]>=inf){
+        cout<<"use the stairs"<<endl;
     }
-    cout<<ans<<endl;
-    
-    
+    else{
+        cout<<visited[g]<<endl;
+    }
     
 }

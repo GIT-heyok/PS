@@ -34,30 +34,33 @@ const ll MOD = 1e4 + 7;
 int main()
 {
     FAST
-    int n, k;
-    cin >> n >> k;
-    vector<int> vec;
-    for (int i = 0; i < n; i++)
-    {
-        int temp;
-        cin >>temp;
-        vec.push_back(temp);
-    }
-    sort(all(vec));
-    vector<int> diff;
-    for (int i = 0; i < n-1; i++)
-    {
-        diff.push_back(vec[i+1]-vec[i]);
-    }
-    sort(all(diff));
-    int aa = n-k;
-    ll ans = 0;
-    for (int i = 0; i < aa; i++)
-    {
-        ans+=diff[i];
-    }
-    cout<<ans<<endl;
     
-    
+    string s;
+    cin >> s;
+    char c = s[0];
+    bool chk = true;
+    for (int i = 0; i < s.length(); i++)
+    {
+        if(c!=s[i])chk = false;
+    }
+    if(chk){
+        cout<<"-1"<<endl;
+    }
+    else{
+        bool chk2 = true;
+        int ptr1 = 0, ptr2 = s.length()-1;
+        while(ptr1<ptr2){
+            if(s[ptr1]==s[ptr2]){
+                ptr1++;
+                ptr2--;
+            }
+            else{
+                chk2 = false;
+                break;
+            }
+        }
+        if(chk2)cout<<s.length()-1<<endl;
+        else cout<<s.length()<<endl;
+    }
     
 }

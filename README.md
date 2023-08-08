@@ -11,3 +11,5 @@ Things to reconsider: [1750](https://nicotina04.tistory.com/47)
 DP-> Tree DP -> [2213](https://www.acmicpc.net/problem/2213)
 
 shortest distance between two [2261](https://www.acmicpc.net/problem/2261)
+
+강의실 배정 -> [11000](https://wooono.tistory.com/393)
