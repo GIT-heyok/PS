@@ -17,11 +17,6 @@ int main() {
     ll num = 0;
     for (int i = 1; i <= n; i++)
     {
-        cout<<n/i<<" ";
-    }
-    
-    for (int i = 1; i <= n; i++)
-    {
         ans+=n/i;
         counted++;
         if(counted>=n){
