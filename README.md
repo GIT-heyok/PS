@@ -30,3 +30,4 @@ Write editorial on this :)
 롤러코스터 -> [2873](https://jaimemin.tistory.com/729)
 how to 구현 나중에 읽어보자.
 
+ $DP[i][j] = Min_{k < j}(DP[i-1][k] + C[k][j])$

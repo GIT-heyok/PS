@@ -12,18 +12,21 @@ const int INF = 987654321;
 
 int main() {    
     FAST
-    int n;
-    int s = 0;
+    int n,s=0, o=1;
     cin >> n;
     for (int i = 0; i < n; i++)
     {
         int t;
         cin >> t;
         s^=t;
+        o &= (t==1);
     }
-    bool chk = s!=0;
-    if(chk)cout<<"koosaga"<<endl;
-    else cout<<"cubelover"<<endl;
-
+    bool cubelover;
+    if(o)
+        cubelover = n%2;
+    else   
+        cubelover = s==0;
+    
+    cout<<(cubelover?"cubelover":"koosaga")<<endl;
     
 }
