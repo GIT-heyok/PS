@@ -67,43 +67,18 @@ int main() {
          {
             dp[i][(j+rotation)%10] = min(dp[i][(j+rotation)%10],dp[i-1][j]+rotation+requiredRightTurns((arr1[i]+j+rotation)%10,arr2[i]));
          }
-        // cout<<dp[i][j]<<" ";
+         //cout<<dp[i][j]<<" ";
       }
-      //cout<<endl;
+     // cout<<endl;
    }
    int ans = 1<<29;
 
-   int idx = 0;
    for (int i = 0; i < 10; i++)
    {
-      if(dp[n-1][i]<ans){
-         idx = i;
-         ans = dp[n-1][i];
-      }
+      ans = min(ans, dp[n-1][i]);
    }
-
    cout<<ans<<endl;
-   int val = ans;
-   vector<pair<int, int>> ansReal(n);
-   for (int i = n-1; i >= 0; i--)
-   {
-      for (int j = 0; j < 10; j++)
-      {
-         int idx2 = (idx-j+10)%10;
-         if(j+requiredRightTurns((arr1[i+1]+idx)%10,arr2[i+1])==val-dp[i][idx2]){
-            //cout<<"yes"<<endl;
-            idx = idx2;
-            ansReal[i+1] = {j,val-dp[i][idx2]-j};
-            val = dp[i][idx2];            
-         }
-      }
-      
-   }
-   ansReal[0] = {idx, val-idx};
-   for (int i = 0; i < n; i++)
-   {
-      cout<<i+1<<" "<<ansReal[i].first-ansReal[i].second<<endl;
-   }
+   
    
    
    
