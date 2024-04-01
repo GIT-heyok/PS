@@ -6,7 +6,7 @@
 using namespace std;
 #define endl '\n'
 typedef long long ll;
-
+// 4344 평균은 넘겠지
 int main()
 {
     FAST

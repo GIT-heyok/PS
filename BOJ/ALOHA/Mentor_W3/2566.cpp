@@ -6,7 +6,7 @@
 using namespace std;
 #define endl '\n'
 typedef long long ll;
-
+//2566 최댓값
 int main()
 {
     FAST

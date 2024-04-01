@@ -6,7 +6,7 @@
 using namespace std;
 #define endl '\n'
 typedef long long ll;
-
+// 8958 OX퀴즈
 int main()
 {
     FAST

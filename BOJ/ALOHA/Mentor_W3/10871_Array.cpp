@@ -6,6 +6,7 @@
 using namespace std;
 #define endl '\n'
 typedef long long ll;
+// 10871 X보다 작은 수
 
 int main()
 {

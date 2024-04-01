@@ -6,7 +6,7 @@
 using namespace std;
 #define endl '\n'
 typedef long long ll;
-
+// 26145 출제비 재분배
 int main()
 {
     FAST
