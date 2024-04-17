@@ -8,6 +8,8 @@ using namespace std;
 #define endl '\n'
 typedef long long ll;
 int counter;
+
+// 25501 재귀의 귀재
 //식을 그대로 사용하되, 카운터만 붙여주었다.
 int recursion(const char *s, int l, int r){
     counter++; //식이 호출 되었다: 1회 카운트

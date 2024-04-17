@@ -8,6 +8,7 @@ using namespace std;
 #define endl '\n'
 typedef long long ll;
 
+// 24460 특별상이라도 받고 싶어
 int n; // n은 재귀함수에서 사용될 것이기 떄문에 전역 변수로 선언 해준다.
 int arr[1024][1024]; // N은 최대 2^10 = 1024이다.
 
@@ -64,3 +65,4 @@ int main() {
     cout << recursion(0, n - 1, 0, n - 1) << endl;
 }
 
+    

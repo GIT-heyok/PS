@@ -8,6 +8,7 @@ using namespace std;
 #define endl '\n'
 typedef long long ll;
 
+// 2741 N 찍기
 void recursion(int idx, int maxN){ // idx: 현재의 인덱스, maxN: 마지막 인덱스
     if(idx==maxN) {
         cout<<idx<<endl; //마지막 인덱스일때는 그 다음을 호출하지 않는다.

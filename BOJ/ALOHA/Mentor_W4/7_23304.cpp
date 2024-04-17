@@ -8,6 +8,7 @@ using namespace std;
 #define endl '\n'
 typedef long long ll;
 
+// 23304 아카라카
 bool isPalindrome(int l, int r, string &s) { // 팰린드롬을 확인한다. 안쪽이 회문이고 양쪽 껍질이 같다면 그것도 회문이다.
     if (l >= r)return true; // 한글자 이하의 문자열은 모두 회문이다.
     if (s[l] != s[r])return false; // 껍질이 다르다면 회문이 아니다.

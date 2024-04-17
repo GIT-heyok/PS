@@ -14,13 +14,11 @@ private:
     vector<Trie *> children;
     bool finish;
     char curNode;
-    int cnt;
 public:
 
     Trie(char c) {
         finish = false;
         curNode = c;
-        cnt = 0;
     }
 
     ~Trie() {
@@ -33,6 +31,7 @@ public:
             finish = true;
             return;
         }
+        cout << s[idx] << endl;
 
         int temp = -1;
         for (int i = 0; i < children.size(); ++i) {
@@ -46,13 +45,12 @@ public:
             temp = children.size() - 1;
         }
 
-        children[temp]->cnt++;
         children[temp]->insert(s, idx + 1);
     }
 
-    int find(string &s, int idx) {
-        if (idx == s.length()) return cnt;
-        cout<<s[idx]<<" "<<cnt<<endl;
+    bool find(string &s, int idx) {
+        if (idx == s.length()) return finish;
+
         int temp = -1;
         for (int i = 0; i < children.size(); ++i) {
             if (s[idx] == children[i]->curNode) {
@@ -60,7 +58,7 @@ public:
                 break;
             }
         }
-        if (temp == -1) return cnt;
+        if (temp == -1) return false;
         return children[temp]->find(s, idx + 1);
 
     }
@@ -69,29 +67,11 @@ public:
 int main(void) {
     FAST
     Trie *t = new Trie(0);
-    int n, m;
-    cin >> m >> n;
-    for (int i = 0; i < m; ++i) {
-        int temp;
-        cin >> temp;
-        string s = "";
-        for (int j = 0; j < temp; ++j) {
-            char ch;
-            cin >> ch;
-            s+=ch;
-        }
-        t->insert(s, 0);
-    }
-    for (int i = 0; i < n; ++i) {
-        int temp;
-        cin >> temp;
-        string s = "";
-        for (int j = 0; j < temp; ++j) {
-            char ch;
-            cin >> ch;
-            s+=ch;
-        }
-        cout<<t->find(s,0)<<endl;
-    }
+    string s1 = "SSSS";
+    t->insert(s1, 0);
+    string n = "SS";
+    string n1 = "SSSS";
+    cout << t->find(s1, 0) << endl;
+    cout << t->find(n1, 0) << endl;
 
 }

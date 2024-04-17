@@ -8,7 +8,9 @@ using namespace std;
 #define endl '\n'
 typedef long long ll;
 int counter;
-//식을 그대로 사용하되, 카운터만 붙여주었다.
+
+// 10988 팰린드롬인지 확인하기
+//식을 그대로 사용하였다.
 int recursion(const char *s, int l, int r){
     counter++; //식이 호출 되었다: 1회 카운트
     if(l >= r) return 1;

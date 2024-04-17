@@ -8,6 +8,7 @@ using namespace std;
 #define endl '\n'
 typedef long long ll;
 
+// 1074 Z
 int divide(int depth, int r1, int c1, int r2, int c2, int r, int c){
     if(depth==-1)return 0;
     int plus = 1<<depth;

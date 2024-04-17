@@ -8,6 +8,7 @@ using namespace std;
 #define endl '\n'
 typedef long long ll;
 
+// 11729 하노이 탑 이동 순서
 // 처음, 중간, 끝을 정해준다.
 void moveHanoi(int from, int middle, int to, int height) {
     if (height == 1) { // 기저 사례: 옮길 원판이 한개 밖에 없다. (옮길 칸은 비어 있다고 가정)

@@ -8,6 +8,7 @@ using namespace std;
 #define endl '\n'
 typedef long long ll;
 
+//10870 피보나치 수 5
 int getFibonacci(int n){
     if(n == 0) //기저 사례: F_0 = 0
         return 0;
