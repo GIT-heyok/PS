@@ -7,6 +7,8 @@
 using namespace std;
 #define endl '\n'
 typedef long long ll;
+//큰거 붙여놓기
+
 int main(){
     FAST
     int n;
